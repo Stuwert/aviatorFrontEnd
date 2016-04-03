@@ -1,6 +1,8 @@
 const path = require('path');
 const merge = require('webpack-merge')
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const NpmInstallPlugin = require('npm-install-webpack-plugin')
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -9,6 +11,7 @@ const PATHS = {
   build: path.join(__dirname, 'build')
 }
 
+process.env.BABEL_ENV = TARGET;
 
 
 const common = {
@@ -17,16 +20,29 @@ const common = {
   entry: {
     app: PATHS.app
   },
-
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: PATHS.build,
     filename: 'bundle.js'
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel?cacheDirectory'],
+        include: PATHS.app
+      }
+    ]
   }
+
 
 };
 
 if (TARGET === 'start' || !TARGET){
   module.exports = merge(common, {
+    devTool: 'eval-source-map',
     devServer: {
       contentBase: PATHS.build,
 
@@ -40,12 +56,45 @@ if (TARGET === 'start' || !TARGET){
       port: process.env.PORT
 
     },
+    module: {
+      preLoaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['eslint'],
+          indlue: PATHS.app
+        }
+      ],
+      loaders: [
+        {
+          //Test expects a RegExp! Note the slashes
+          test: /\.scss$/,
+          loaders: ['style', 'css', 'sass'],
+          include: PATHS.app
+        }
+      ]
+    },
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new NpmInstallPlugin({
+        save: true // --save
+      })
     ]
   });
 }
 
 if(TARGET === 'build'){
-  module.exports = merge(common, {});
+  module.exports = merge(common, {
+    module: {
+      loaders: [
+        {
+          test: /\.scss$/,
+          loader: ExtractTextPlugin.extract('style', 'css', 'scss'),
+          include: PATHS.app
+        }
+      ]
+    },
+    plugins: [
+      new ExtractTextPlugin('[name].[chunkhash].css')
+    ]
+  });
 }
