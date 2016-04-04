@@ -20,6 +20,7 @@ addEventListener('keyup', function(e){
   game.setKeysDown(keysDown);
 }, false)
 
+game.initializeGame();
 game.render();
 game.main();
 

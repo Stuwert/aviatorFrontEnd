@@ -45,4 +45,7 @@ export default class Game {
     }
     return false;
   }
+  initializeGame(){
+    this.sheep.activeSheep.forEach(eachSheep => eachSheep.setPenLocation(this.pen))
+  }
 }

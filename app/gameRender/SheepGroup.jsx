@@ -42,6 +42,7 @@ SheepGroup.prototype.update = function(modifier, dog, pen){
     otherSheep.splice(i, 1);
     sheep.move(modifier, otherSheep);
     if(sheep.collisionDetect(pen)){
+      console.log('Bing Bong');
       that.penSheep(i)
     }
     if(sheep.boundaryCollision()){
@@ -49,6 +50,8 @@ SheepGroup.prototype.update = function(modifier, dog, pen){
     }
   })
 }
+
+
 //need to make a for each sheep loop that does the following
 // finds dog dogDistance
 // finds other sheep

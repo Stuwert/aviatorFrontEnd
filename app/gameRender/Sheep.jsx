@@ -7,10 +7,11 @@ export default class SheepConstructor{
       xBounds : [this.x - 5, this.x + 5],
       yBounds : [this.y -5, this.y + 5]
     }
-    this.speed = 50;
+    this.speed = 35;
     this.dogDistanceLength = null;
     this.deltaY = 0;
     this.deltaX = 0;
+    this.penLocation;
   }
 }
 
@@ -19,29 +20,16 @@ export default class SheepConstructor{
 SheepConstructor.prototype.dogDistance = function(dog){
   this.deltaX = this.x - dog.x;
   this.deltaY = this.y - dog.y;
-  // console.log(deltaX, " ", deltaY);
   var deltaSquared = Math.pow(this.deltaX, 2) + Math.pow(this.deltaY, 2);
   this.dogDistanceLength = Math.sqrt(deltaSquared)
-  // console.log(this.dogDistanceLength);
 }
 
 SheepConstructor.prototype.move = function(modifier, otherSheep){
   let potentialDirection = [this.x, this.y]
   let newX, newY;
   let newBounds;
-  if (this.dogDistanceLength < 100){
-    // if deltaX is negative, dog is to the right
-    // if deltaY is negative, dog is below
-    if (this.deltaY < 0){
-      potentialDirection[1] -= this.speed * modifier;
-    }else{
-      potentialDirection[1] += this.speed * modifier;
-    }
-    if(this.deltaX < 0){
-      potentialDirection[0] -= this.speed * modifier;
-    }else{
-      potentialDirection[0] += this.speed * modifier;
-    }
+  if (dogIsNear(this.dogDistanceLength)){
+    potentialDirection = this.moveTowardsPen(modifier);
   }
   else{
     potentialDirection = this.moveTowardsWall(modifier, ...this.nearestWallDirection);
@@ -101,6 +89,25 @@ SheepConstructor.prototype.moveTowardsWall = function(modifier, xDirection, yDir
   return [xMove, yMove]
 }
 
+SheepConstructor.prototype.moveTowardsPen = function(modifier){
+  const DAMPEN_DOG_EFFECT = 90;
+  let xDirection = (this.penLocation[0] - this.x) / Math.abs(this.x - this.penLocation[0]);
+  let yDirection = (this.penLocation[1] - this.y) / Math.abs(this.y - this.penLocation[1]);
+  let xMoveTowardsPen = this.speed  * xDirection
+  let yMoveTowardsPen = this.speed  * yDirection
+  let xDogDelta = this.deltaX * this.speed / DAMPEN_DOG_EFFECT
+  let yDogDelta = this.deltaY * this.speed / DAMPEN_DOG_EFFECT
+  let xMove = this.x += modifier * ( xMoveTowardsPen + xDogDelta );
+  let yMove = this.y += modifier * ( yMoveTowardsPen + yDogDelta );
+  return [xMove, yMove]
+}
+
+SheepConstructor.prototype.setPenLocation = function(pen){
+  let xDirection = (pen.boundaries.xBounds[0] + pen.boundaries.xBounds[1]) / 2;
+  let yDirection = (pen.boundaries.yBounds[0] + pen.boundaries.yBounds[1]) / 2;
+  this.penLocation = [xDirection, yDirection];
+}
+
 function isIntersected(sheepBounds, collidingObjectBound){
   //takes two arrays, both should be in the same x/y coordinate plane
   let xReturnable = false;
@@ -136,6 +143,12 @@ function collideWithOtherSheep (thisSheepBoundaries, otherSheep){
 
   return returnable;
 }
+
+function dogIsNear(dist){
+  const MAX_DOG_DISTANCE = 100;
+  return dist <= MAX_DOG_DISTANCE;
+}
+
 
 // SheepConstructor.prototype.wolfCollide = function(){
 //
