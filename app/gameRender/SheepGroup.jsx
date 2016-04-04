@@ -42,7 +42,6 @@ SheepGroup.prototype.update = function(modifier, dog, pen){
     otherSheep.splice(i, 1);
     sheep.move(modifier, otherSheep);
     if(sheep.collisionDetect(pen)){
-      console.log('Bing Bong');
       that.penSheep(i)
     }
     if(sheep.boundaryCollision()){

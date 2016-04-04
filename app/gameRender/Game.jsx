@@ -13,10 +13,17 @@ export default class Game {
     this.now = Date.now();
     this.then = Date.now();
     this.keysDown = {};
+    this.sheepPennedNumber = 0;
+    this.sheepLostNumber = 0;
+    this.sheepActiveNumber = sheepNum;
+    this.eventToDispatch = null;
   }
   update(modifier){
     this.dog.update(modifier, this.keysDown);
     this.sheep.update(modifier, this.dog, this.pen);
+    this.sheepPennedNumber = this.sheep.pennedSheep.length;
+    this.sheepLostNumber = this.sheep.lostSheep.length;
+    this.sheepActiveNumber = this.sheep.activeSheep.length;
   }
   render(){
     this.ctx.fillStyle = 'rgb(67,247,51)'
@@ -34,6 +41,7 @@ export default class Game {
       requestAnimationFrame(this.main.bind(this));
     }
     this.render();
+    dispatchEvent(this.eventToDispatch)
   }
   setKeysDown(newObj){
     this.keysDown = newObj;
@@ -45,7 +53,8 @@ export default class Game {
     }
     return false;
   }
-  initializeGame(){
+  initializeGame(eventToDispatch){
+    this.eventToDispatch = eventToDispatch;
     this.sheep.activeSheep.forEach(eachSheep => eachSheep.setPenLocation(this.pen))
   }
 }
