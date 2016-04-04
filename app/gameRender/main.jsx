@@ -3,7 +3,7 @@ import React from 'react';
 import Canvas from './canvas.jsx'
 import Game from './Game.jsx'
 
-let game = new Game(1);
+let game = new Game(2);
 
 let keysDown = {}
 

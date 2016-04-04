@@ -5,7 +5,7 @@ export default class SheepGroup {
     this.activeSheep = []
     for(var i = 0; i < sheepNum; i++){
       // currently a workaround to not having a better sheep generator
-      this.activeSheep.push(new SheepConstructor(i * 10 + 10, i * 10 + 10))
+      this.activeSheep.push(new SheepConstructor(i * 50 + 10, i * 10 + 10))
     }
     this.lostSheep = [];
     this.pennedSheep = []

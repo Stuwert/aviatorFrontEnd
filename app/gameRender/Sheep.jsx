@@ -43,12 +43,12 @@ SheepConstructor.prototype.move = function(modifier, otherSheep){
       potentialX += this.speed * modifier;
     }
   }
-  if (otherSheep.length < 1 && !collideWithOtherSheep.bind(this, otherSheep)){
-    newBounds = potentialBoundaries(this.x, this.y)
-    newX = this.x, newY = this.y;
-  }else{
-    newBounds = potentialBoundaries(potentialX, potentialY);
+  if (otherSheep.length < 1 || !collideWithOtherSheep(newBoundaries(potentialX, potentialY), otherSheep)){
+    newBounds = newBoundaries(potentialX, potentialY);
     newX = potentialX, newY = potentialY;
+  } else{
+    newBounds = newBoundaries(this.x, this.y)
+    newX = this.x, newY = this.y;
   }
   this.updateBoundaries(newBounds, newX, newY);
 }
@@ -92,19 +92,19 @@ function isIntersected(sheepBounds, collidingObjectBound){
   return (xReturnable && yReturnable);
 }
 
-function potentialBoundaries(x, y){
+function newBoundaries(x, y){
   return {
     xBounds: [x - 5, x + 5],
     yBounds: [y - 5, y + 5]
   }
 }
 
-function collideWithOtherSheep (otherSheep){
+function collideWithOtherSheep (thisSheepBoundaries, otherSheep){
 console.log('hitting here');
   let returnable = false;
 
   otherSheep.forEach(function(sheep){
-    if(isIntersected(this.boundaries, sheep.boundaries)){
+    if(isIntersected(thisSheepBoundaries, sheep.boundaries)){
       returnable = true;
     }
   })
