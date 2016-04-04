@@ -100,7 +100,6 @@ function newBoundaries(x, y){
 }
 
 function collideWithOtherSheep (thisSheepBoundaries, otherSheep){
-console.log('hitting here');
   let returnable = false;
 
   otherSheep.forEach(function(sheep){
