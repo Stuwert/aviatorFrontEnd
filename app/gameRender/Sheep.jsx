@@ -34,3 +34,19 @@ SheepConstructor.prototype.move = function(modifier){
     }
   }
 }
+
+SheepConstructor.prototype.collisionDetect = function(item){
+  if(item.type === 'pen'){
+    if (this.x > item.xLow && this.x < item.xHigh && this.y > item.yLow && this.y < item.yHigh){
+      alert('Bing Bong!')
+    }
+  }
+}
+//
+// SheepConstructor.prototype.penCollde = function(){
+//
+// }
+
+// SheepConstructor.prototype.wolfCollide = function(){
+//
+// }

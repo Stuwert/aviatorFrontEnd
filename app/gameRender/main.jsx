@@ -3,11 +3,14 @@ import React from 'react';
 import Canvas from './canvas.jsx'
 import SheepConstructor from './Sheep.jsx'
 import Dog from './Dog.jsx'
+import Pen from './Pen.jsx'
 
 
 let canvas = document.createElement('canvas');
 let ctx = canvas.getContext('2d');
 
+
+var pen = new Pen();
 var dog = new Dog();
 var sheeps = [
   new SheepConstructor(10, 20)
@@ -28,6 +31,7 @@ var update = function(modifier){
   sheeps.forEach(function(sheep){
     sheep.dogDistance(dog);
     sheep.move(modifier);
+    sheep.collisionDetect(pen)
   })
 }
 
@@ -36,6 +40,7 @@ var render = function(){
   ctx.fillStyle = 'rgb(67,247,51)'
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(dog.image, dog.x, dog.y);
+  ctx.drawImage(pen.image, pen.xLow, pen.yLow)
   sheeps.forEach(function(sheep){
     ctx.fillStyle = 'rgb(250, 250, 250)'
     ctx.fillRect(sheep.x, sheep.y, 10, 10)
