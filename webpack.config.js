@@ -34,6 +34,11 @@ const common = {
         loaders: ['babel?cacheDirectory'],
         include: PATHS.app
       }
+    ],
+    postLoaders: [
+      {
+        loader: "transform?brfs"
+      }
     ]
   }
 
