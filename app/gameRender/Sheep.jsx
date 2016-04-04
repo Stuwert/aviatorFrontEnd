@@ -9,6 +9,8 @@ export default class SheepConstructor{
   }
 }
 
+// need to randomize sheep position on construction or cheat. 
+
 SheepConstructor.prototype.dogDistance = function(dog){
   this.deltaX = this.x - dog.x;
   this.deltaY = this.y - dog.y;

@@ -36,4 +36,5 @@ Dog.prototype.update = function(modifier, keysDown){
   if(39 in keysDown){
     this.x += this.speed * modifier;
   }
+  this.catchDog();
 }

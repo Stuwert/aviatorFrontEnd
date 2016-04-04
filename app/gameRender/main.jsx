@@ -1,80 +1,41 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import Canvas from './canvas.jsx'
-import SheepConstructor from './Sheep.jsx'
-import Dog from './Dog.jsx'
-import Pen from './Pen.jsx'
+import Game from './Game.jsx'
 
+let game = new Game(1);
 
-let canvas = document.createElement('canvas');
-let ctx = canvas.getContext('2d');
+let keysDown = {}
 
-
-var pen = new Pen();
-var dog = new Dog();
-var sheeps = [
-  new SheepConstructor(10, 20)
-]
-
-var keysDown = {};
+//I think the event listeners need to live with the main game loop
+//
+// addEventListener('keydown', game.addKey, false)
+// addEventListener('keyup', game.removeKey, false)
 
 addEventListener('keydown', function(e){
   keysDown[e.keyCode] = true;
+  game.setKeysDown(keysDown);
 }, false)
 
 addEventListener('keyup', function(e){
   delete keysDown[e.keyCode];
+  game.setKeysDown(keysDown);
 }, false)
 
-var update = function(modifier){
-  dog.update(modifier, keysDown)
-  sheeps.forEach(function(sheep){
-    sheep.dogDistance(dog);
-    sheep.move(modifier);
-    sheep.collisionDetect(pen)
-  })
-}
 
 
-var render = function(){
-  ctx.fillStyle = 'rgb(67,247,51)'
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(dog.image, dog.x, dog.y);
-  ctx.drawImage(pen.image, pen.xLow, pen.yLow)
-  sheeps.forEach(function(sheep){
-    ctx.fillStyle = 'rgb(250, 250, 250)'
-    ctx.fillRect(sheep.x, sheep.y, 10, 10)
-  })
-}
+// let w = window;
+// let requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
-
-var main = function(){
-  requestAnimationFrame(updateRender);
-  setTimeout(main, 5)
-}
-
-var updateRender = function(){
-  var now = Date.now();
-  var delta = now - then;
-  then = now;
-  update(delta / 1000);
-  dog.catchDog();
-  render();
-}
-
-var w = window;
-requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
-var then = Date.now();
-
-render();
-main();
+game.render();
+game.main();
 
 
 
 export default class SheepGame extends React.Component{
   render(){
     return(
-        <Canvas canvas={canvas} />
+        <Canvas canvas={game.canvas} />
     )
   }
 }
