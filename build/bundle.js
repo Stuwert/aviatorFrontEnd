@@ -19704,6 +19704,18 @@
 
 	var _Game2 = _interopRequireDefault(_Game);
 
+	var _SheepActive = __webpack_require__(170);
+
+	var _SheepActive2 = _interopRequireDefault(_SheepActive);
+
+	var _SheepLost = __webpack_require__(171);
+
+	var _SheepLost2 = _interopRequireDefault(_SheepLost);
+
+	var _SheepPenned = __webpack_require__(172);
+
+	var _SheepPenned2 = _interopRequireDefault(_SheepPenned);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19719,9 +19731,7 @@
 	var keysDown = {};
 
 	addEventListener('keydown', function (e) {
-	  if (e.keyCode < 40 && e.keyCode > 36) {
-	    e.preventDefault();
-	  }
+	  e.preventDefault();
 	  keysDown[e.keyCode] = true;
 	  game.setKeysDown(keysDown);
 	}, false);
@@ -19731,6 +19741,9 @@
 	  game.setKeysDown(keysDown);
 	}, false);
 
+	var onFire = new Event('gameUpdate');
+
+	game.initializeGame(onFire);
 	game.render();
 	game.main();
 
@@ -19740,13 +19753,49 @@
 	  function SheepGame() {
 	    _classCallCheck(this, SheepGame);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SheepGame).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SheepGame).call(this));
+
+	    _this.state = {
+	      activeSheep: game.sheepActiveNumber,
+	      lostSheep: game.sheepLostNumber,
+	      pennedSheep: game.sheepPennedNumber
+	    };
+	    return _this;
 	  }
 
 	  _createClass(SheepGame, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      addEventListener('gameUpdate', this.updateInformation.bind(this));
+	    }
+	  }, {
+	    key: 'updateInformation',
+	    value: function updateInformation() {
+	      this.setState({
+	        activeSheep: game.sheepActiveNumber,
+	        lostSheep: game.sheepLostNumber,
+	        pennedSheep: game.sheepPennedNumber
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_canvas2.default, { canvas: game.canvas });
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'main' },
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_canvas2.default, { canvas: game.canvas })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_SheepActive2.default, { number: this.state.activeSheep }),
+	          _react2.default.createElement(_SheepLost2.default, { number: this.state.lostSheep }),
+	          _react2.default.createElement(_SheepPenned2.default, { number: this.state.pennedSheep })
+	        )
+	      );
 	    }
 	  }]);
 
@@ -19853,6 +19902,10 @@
 	    this.now = Date.now();
 	    this.then = Date.now();
 	    this.keysDown = {};
+	    this.sheepPennedNumber = 0;
+	    this.sheepLostNumber = 0;
+	    this.sheepActiveNumber = sheepNum;
+	    this.eventToDispatch = null;
 	  }
 
 	  _createClass(Game, [{
@@ -19860,6 +19913,9 @@
 	    value: function update(modifier) {
 	      this.dog.update(modifier, this.keysDown);
 	      this.sheep.update(modifier, this.dog, this.pen);
+	      this.sheepPennedNumber = this.sheep.pennedSheep.length;
+	      this.sheepLostNumber = this.sheep.lostSheep.length;
+	      this.sheepActiveNumber = this.sheep.activeSheep.length;
 	    }
 	  }, {
 	    key: 'render',
@@ -19881,6 +19937,7 @@
 	        requestAnimationFrame(this.main.bind(this));
 	      }
 	      this.render();
+	      dispatchEvent(this.eventToDispatch);
 	    }
 	  }, {
 	    key: 'setKeysDown',
@@ -19895,6 +19952,16 @@
 	        return true;
 	      }
 	      return false;
+	    }
+	  }, {
+	    key: 'initializeGame',
+	    value: function initializeGame(eventToDispatch) {
+	      var _this = this;
+
+	      this.eventToDispatch = eventToDispatch;
+	      this.sheep.activeSheep.forEach(function (eachSheep) {
+	        return eachSheep.setPenLocation(_this.pen);
+	      });
 	    }
 	  }]);
 
@@ -20053,6 +20120,7 @@
 	    }
 	  });
 	};
+
 	//need to make a for each sheep loop that does the following
 	// finds dog dogDistance
 	// finds other sheep
@@ -20073,6 +20141,8 @@
 	  value: true
 	});
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var SheepConstructor = function SheepConstructor(x, y) {
@@ -20080,14 +20150,16 @@
 
 	  this.x = x;
 	  this.y = y;
+	  this.nearestWallDirection = [null, null];
 	  this.boundaries = {
 	    xBounds: [this.x - 5, this.x + 5],
 	    yBounds: [this.y - 5, this.y + 5]
 	  };
-	  this.speed = 75;
+	  this.speed = 35;
 	  this.dogDistanceLength = null;
 	  this.deltaY = 0;
 	  this.deltaX = 0;
+	  this.penLocation;
 	};
 
 	// need to randomize sheep position on construction or cheat.
@@ -20096,40 +20168,29 @@
 	SheepConstructor.prototype.dogDistance = function (dog) {
 	  this.deltaX = this.x - dog.x;
 	  this.deltaY = this.y - dog.y;
-	  // console.log(deltaX, " ", deltaY);
 	  var deltaSquared = Math.pow(this.deltaX, 2) + Math.pow(this.deltaY, 2);
 	  this.dogDistanceLength = Math.sqrt(deltaSquared);
-	  // console.log(this.dogDistanceLength);
 	};
 
 	SheepConstructor.prototype.move = function (modifier, otherSheep) {
-	  var potentialY = this.y;
-	  var potentialX = this.x;
+	  var potentialDirection = [this.x, this.y];
 	  var newX = void 0,
 	      newY = void 0;
 	  var newBounds = void 0;
-	  if (this.dogDistanceLength < 100) {
-	    // if deltaX is negative, dog is to the right
-	    // if deltaY is negative, dog is below
-	    if (this.deltaY < 0) {
-	      potentialY -= this.speed * modifier;
-	    } else {
-	      potentialY += this.speed * modifier;
-	    }
-	    if (this.deltaX < 0) {
-	      potentialX -= this.speed * modifier;
-	    } else {
-	      potentialX += this.speed * modifier;
-	    }
+	  if (dogIsNear(this.dogDistanceLength)) {
+	    potentialDirection = this.moveTowardsPen(modifier);
+	  } else {
+	    potentialDirection = this.moveTowardsWall.apply(this, [modifier].concat(_toConsumableArray(this.nearestWallDirection)));
 	  }
-	  if (otherSheep.length < 1 || !collideWithOtherSheep(newBoundaries(potentialX, potentialY), otherSheep)) {
-	    newBounds = newBoundaries(potentialX, potentialY);
-	    newX = potentialX, newY = potentialY;
+	  if (otherSheep.length < 1 || !collideWithOtherSheep(newBoundaries.apply(undefined, _toConsumableArray(potentialDirection)), otherSheep)) {
+	    newBounds = newBoundaries.apply(undefined, _toConsumableArray(potentialDirection));
+	    newX = potentialDirection[0], newY = potentialDirection[1];
 	  } else {
 	    newBounds = newBoundaries(this.x, this.y);
 	    newX = this.x, newY = this.y;
 	  }
 	  this.updateBoundaries(newBounds, newX, newY);
+	  this.updateNearestWallDirection();
 	};
 
 	SheepConstructor.prototype.collisionDetect = function (gameObj) {
@@ -20152,6 +20213,47 @@
 	  this.boundaries.yBounds = newBounds.yBounds;
 	  this.x = newX;
 	  this.y = newY;
+	};
+
+	SheepConstructor.prototype.updateNearestWallDirection = function () {
+	  var xWallDirection = 0;
+	  var yWallDirection = 0;
+	  if (this.x < 206) {
+	    xWallDirection = -1;
+	  } else if (this.x > 306) {
+	    xWallDirection = 1;
+	  }
+	  if (this.y < 206) {
+	    yWallDirection = -1;
+	  } else if (this.y > 306) {
+	    yWallDirection = 1;
+	  }
+	  this.nearestWallDirection = [xWallDirection, yWallDirection];
+	};
+
+	SheepConstructor.prototype.moveTowardsWall = function (modifier, xDirection, yDirection) {
+	  var xMove = this.x += this.speed * modifier * xDirection;
+	  var yMove = this.y += this.speed * modifier * yDirection;
+	  return [xMove, yMove];
+	};
+
+	SheepConstructor.prototype.moveTowardsPen = function (modifier) {
+	  var DAMPEN_DOG_EFFECT = 90;
+	  var xDirection = (this.penLocation[0] - this.x) / Math.abs(this.x - this.penLocation[0]);
+	  var yDirection = (this.penLocation[1] - this.y) / Math.abs(this.y - this.penLocation[1]);
+	  var xMoveTowardsPen = this.speed * xDirection;
+	  var yMoveTowardsPen = this.speed * yDirection;
+	  var xDogDelta = this.deltaX * this.speed / DAMPEN_DOG_EFFECT;
+	  var yDogDelta = this.deltaY * this.speed / DAMPEN_DOG_EFFECT;
+	  var xMove = this.x += modifier * (xMoveTowardsPen + xDogDelta);
+	  var yMove = this.y += modifier * (yMoveTowardsPen + yDogDelta);
+	  return [xMove, yMove];
+	};
+
+	SheepConstructor.prototype.setPenLocation = function (pen) {
+	  var xDirection = (pen.boundaries.xBounds[0] + pen.boundaries.xBounds[1]) / 2;
+	  var yDirection = (pen.boundaries.yBounds[0] + pen.boundaries.yBounds[1]) / 2;
+	  this.penLocation = [xDirection, yDirection];
 	};
 
 	function isIntersected(sheepBounds, collidingObjectBound) {
@@ -20190,18 +20292,191 @@
 	  return returnable;
 	}
 
-	// SheepConstructor.prototype.nuancedCollisionDetection = function(itemArr){
-	//
-	// }
-
-	//
-	// SheepConstructor.prototype.penCollde = function(){
-	//
-	// }
+	function dogIsNear(dist) {
+	  var MAX_DOG_DISTANCE = 100;
+	  return dist <= MAX_DOG_DISTANCE;
+	}
 
 	// SheepConstructor.prototype.wolfCollide = function(){
 	//
 	// }
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SheepActive = function (_React$Component) {
+	  _inherits(SheepActive, _React$Component);
+
+	  function SheepActive() {
+	    _classCallCheck(this, SheepActive);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SheepActive).apply(this, arguments));
+	  }
+
+	  _createClass(SheepActive, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Active Sheep:'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.number
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SheepActive;
+	}(_react2.default.Component);
+
+	exports.default = SheepActive;
+
+/***/ },
+/* 171 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SheepLost = function (_React$Component) {
+	  _inherits(SheepLost, _React$Component);
+
+	  function SheepLost() {
+	    _classCallCheck(this, SheepLost);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SheepLost).apply(this, arguments));
+	  }
+
+	  _createClass(SheepLost, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Lost Sheep:'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.number
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SheepLost;
+	}(_react2.default.Component);
+
+	exports.default = SheepLost;
+
+/***/ },
+/* 172 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SheepPenned = function (_React$Component) {
+	  _inherits(SheepPenned, _React$Component);
+
+	  function SheepPenned() {
+	    _classCallCheck(this, SheepPenned);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SheepPenned).apply(this, arguments));
+	  }
+
+	  _createClass(SheepPenned, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Penned Sheep:'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.number
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SheepPenned;
+	}(_react2.default.Component);
+
+	exports.default = SheepPenned;
 
 /***/ }
 /******/ ]);
