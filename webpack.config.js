@@ -96,6 +96,11 @@ if(TARGET === 'build'){
         return v !== 'alt-utils'
       })
     },
+    output:{
+      path: PATHS.build,
+      filename: '[name].[chunkhash].js',
+      chunkFilename: '[chunkhash].js'
+    },
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
         name: ['vendor' , 'manifest']
