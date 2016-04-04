@@ -2,11 +2,12 @@ export default class SheepConstructor{
   constructor(x, y){
     this.x = x;
     this.y = y;
+    this.nearestWallDirection = [null, null];
     this.boundaries = {
       xBounds : [this.x - 5, this.x + 5],
       yBounds : [this.y -5, this.y + 5]
     }
-    this.speed = 75;
+    this.speed = 50;
     this.dogDistanceLength = null;
     this.deltaY = 0;
     this.deltaX = 0;
@@ -25,32 +26,35 @@ SheepConstructor.prototype.dogDistance = function(dog){
 }
 
 SheepConstructor.prototype.move = function(modifier, otherSheep){
-  let potentialY = this.y;
-  let potentialX = this.x;
+  let potentialDirection = [this.x, this.y]
   let newX, newY;
   let newBounds;
   if (this.dogDistanceLength < 100){
     // if deltaX is negative, dog is to the right
     // if deltaY is negative, dog is below
     if (this.deltaY < 0){
-      potentialY -= this.speed * modifier;
+      potentialDirection[1] -= this.speed * modifier;
     }else{
-      potentialY += this.speed * modifier;
+      potentialDirection[1] += this.speed * modifier;
     }
     if(this.deltaX < 0){
-      potentialX -= this.speed * modifier;
+      potentialDirection[0] -= this.speed * modifier;
     }else{
-      potentialX += this.speed * modifier;
+      potentialDirection[0] += this.speed * modifier;
     }
   }
-  if (otherSheep.length < 1 || !collideWithOtherSheep(newBoundaries(potentialX, potentialY), otherSheep)){
-    newBounds = newBoundaries(potentialX, potentialY);
-    newX = potentialX, newY = potentialY;
+  else{
+    potentialDirection = this.moveTowardsWall(modifier, ...this.nearestWallDirection);
+  }
+  if (otherSheep.length < 1 || !collideWithOtherSheep(newBoundaries(...potentialDirection), otherSheep)){
+    newBounds = newBoundaries(...potentialDirection);
+    newX = potentialDirection[0], newY = potentialDirection[1];
   } else{
     newBounds = newBoundaries(this.x, this.y)
     newX = this.x, newY = this.y;
   }
   this.updateBoundaries(newBounds, newX, newY);
+  this.updateNearestWallDirection();
 }
 
 SheepConstructor.prototype.collisionDetect = function(gameObj){
@@ -73,6 +77,28 @@ SheepConstructor.prototype.updateBoundaries = function(newBounds, newX, newY){
   this.boundaries.yBounds = newBounds.yBounds;
   this.x = newX;
   this.y = newY;
+}
+
+SheepConstructor.prototype.updateNearestWallDirection = function(){
+  let xWallDirection = 0;
+  let yWallDirection = 0;
+  if(this.x < 206){
+    xWallDirection = -1;
+  }else if (this.x > 306){
+    xWallDirection = 1;
+  }
+  if(this.y < 206){
+    yWallDirection = -1;
+  }else if (this.y > 306){
+    yWallDirection = 1;
+  }
+  this.nearestWallDirection = [xWallDirection, yWallDirection];
+}
+
+SheepConstructor.prototype.moveTowardsWall = function(modifier, xDirection, yDirection){
+  let xMove = this.x += this.speed * modifier * xDirection;
+  let yMove = this.y += this.speed * modifier * yDirection;
+  return [xMove, yMove]
 }
 
 function isIntersected(sheepBounds, collidingObjectBound){
@@ -110,16 +136,6 @@ function collideWithOtherSheep (thisSheepBoundaries, otherSheep){
 
   return returnable;
 }
-
-
-// SheepConstructor.prototype.nuancedCollisionDetection = function(itemArr){
-//
-// }
-
-//
-// SheepConstructor.prototype.penCollde = function(){
-//
-// }
 
 // SheepConstructor.prototype.wolfCollide = function(){
 //
