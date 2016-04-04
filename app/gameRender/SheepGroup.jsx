@@ -38,11 +38,11 @@ SheepGroup.prototype.update = function(modifier, dog, pen){
   var that = this;
   this.activeSheep.forEach(function(sheep, i){
     sheep.dogDistance(dog);
-    sheep.move(modifier);
+    let otherSheep = that.activeSheep.slice(0, that.activeSheep.length);
+    otherSheep.splice(i, 1);
+    sheep.move(modifier, otherSheep);
     if(sheep.collisionDetect(pen)){
       that.penSheep(i)
-      console.log(that.pennedSheep);
-      console.log(that.activeSheep);
     }
     if(sheep.boundaryCollision()){
       that.loseSheep(i);

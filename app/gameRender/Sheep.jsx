@@ -24,31 +24,37 @@ SheepConstructor.prototype.dogDistance = function(dog){
   // console.log(this.dogDistanceLength);
 }
 
-SheepConstructor.prototype.move = function(modifier){
-  let potentialY;
-  let potentialX;
+SheepConstructor.prototype.move = function(modifier, otherSheep){
+  let potentialY = this.y;
+  let potentialX = this.x;
+  let newX, newY;
+  let newBounds;
   if (this.dogDistanceLength < 100){
     // if deltaX is negative, dog is to the right
     // if deltaY is negative, dog is below
     if (this.deltaY < 0){
-      this.y -= this.speed * modifier;
+      potentialY -= this.speed * modifier;
     }else{
-      this.y += this.speed * modifier;
+      potentialY += this.speed * modifier;
     }
     if(this.deltaX < 0){
-      this.x -= this.speed * modifier;
+      potentialX -= this.speed * modifier;
     }else{
-      this.x += this.speed * modifier;
+      potentialX += this.speed * modifier;
     }
   }
-  this.updateBoundaries();
+  if (otherSheep.length < 1 && !collideWithOtherSheep.bind(this, otherSheep)){
+    newBounds = potentialBoundaries(this.x, this.y)
+    newX = this.x, newY = this.y;
+  }else{
+    newBounds = potentialBoundaries(potentialX, potentialY);
+    newX = potentialX, newY = potentialY;
+  }
+  this.updateBoundaries(newBounds, newX, newY);
 }
 
 SheepConstructor.prototype.collisionDetect = function(gameObj){
-  let xIntersection = isIntersected(this.boundaries.xBounds, gameObj.boundaries.xBounds);
-  let yIntersection = isIntersected(this.boundaries.yBounds, gameObj.boundaries.yBounds);
-
-  if (xIntersection && yIntersection){
+  if (isIntersected(this.boundaries, gameObj.boundaries)){
     return true;
   }else{
     return false;
@@ -62,19 +68,47 @@ SheepConstructor.prototype.boundaryCollision = function(){
   return false;
 }
 
-SheepConstructor.prototype.updateBoundaries = function(){
-  this.boundaries.xBounds = [this.x - 5, this.x + 5];
-  this.boundaries.yBounds = [this.y - 5, this.y + 5]
+SheepConstructor.prototype.updateBoundaries = function(newBounds, newX, newY){
+  this.boundaries.xBounds = newBounds.xBounds;
+  this.boundaries.yBounds = newBounds.yBounds;
+  this.x = newX;
+  this.y = newY;
 }
 
 function isIntersected(sheepBounds, collidingObjectBound){
   //takes two arrays, both should be in the same x/y coordinate plane
+  let xReturnable = false;
+  sheepBounds.xBounds.forEach(function(xBound){
+    if(xBound > collidingObjectBound.xBounds[0] && xBound < collidingObjectBound.xBounds[1]){
+      xReturnable = true;
+    }
+  })
+  let yReturnable = false;
+  sheepBounds.yBounds.forEach(function(yBound){
+    if(yBound > collidingObjectBound.yBounds[0] && yBound < collidingObjectBound.yBounds[1]){
+      yReturnable = true;
+    }
+  })
+  return (xReturnable && yReturnable);
+}
+
+function potentialBoundaries(x, y){
+  return {
+    xBounds: [x - 5, x + 5],
+    yBounds: [y - 5, y + 5]
+  }
+}
+
+function collideWithOtherSheep (otherSheep){
+console.log('hitting here');
   let returnable = false;
-  sheepBounds.forEach(function(sheepBound){
-    if(sheepBound > collidingObjectBound[0] && sheepBound < collidingObjectBound[1]){
+
+  otherSheep.forEach(function(sheep){
+    if(isIntersected(this.boundaries, sheep.boundaries)){
       returnable = true;
     }
   })
+
   return returnable;
 }
 
