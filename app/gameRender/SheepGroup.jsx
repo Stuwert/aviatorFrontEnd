@@ -12,21 +12,43 @@ export default class SheepGroup {
   }
 }
 
-SheepGroup.prototype.update = function(modifier, dog, pen){
-  this.activeSheep.forEach(function(sheep){
-    sheep.dogDistance(dog);
-    sheep.move(modifier);
-    sheep.collisionDetect(pen);
-  })
+
+// Sheep.prototype.killSheep = function(sheep, i){
+//
+// }
+
+SheepGroup.prototype.penSheep = function(i){
+  let sheepToPen = this.activeSheep.splice(i, 1);
+  this.pennedSheep.push(sheepToPen)
+}
+
+SheepGroup.prototype.loseSheep = function(i){
+  let aLostSheep = this.activeSheep.splice(i, 1);
+  this.lostSheep.push(aLostSheep);
 }
 
 SheepGroup.prototype.render = function(ctx){
   this.activeSheep.forEach(function(sheep){
     ctx.fillStyle = 'rgb(250, 250, 250)'
-    ctx.fillRect(sheep.x, sheep.y, 10, 10)
+    ctx.fillRect(sheep.x - 5, sheep.y - 5, 10, 10)
   })
 }
 
+SheepGroup.prototype.update = function(modifier, dog, pen){
+  var that = this;
+  this.activeSheep.forEach(function(sheep, i){
+    sheep.dogDistance(dog);
+    sheep.move(modifier);
+    if(sheep.collisionDetect(pen)){
+      that.penSheep(i)
+      console.log(that.pennedSheep);
+      console.log(that.activeSheep);
+    }
+    if(sheep.boundaryCollision()){
+      that.loseSheep(i);
+    }
+  })
+}
 //need to make a for each sheep loop that does the following
 // finds dog dogDistance
 // finds other sheep

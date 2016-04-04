@@ -22,19 +22,27 @@ export default class Game {
     this.ctx.fillStyle = 'rgb(67,247,51)'
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(this.dog.image, this.dog.x, this.dog.y);
-    this.ctx.drawImage(this.pen.image, this.pen.xLow, this.pen.yLow)
+    this.ctx.drawImage(this.pen.image, this.pen.boundaries.xBounds[0], this.pen.boundaries.yBounds[0])
     this.sheep.render(this.ctx)
   }
   main(){
     this.now = Date.now();
     this.delta = this.now - this.then;
     this.update(this.delta / 1000)
-    // this.dog.catchDog(); -- Should be already executed inside dog func
+    if(!this.checkGameEnd()){
+      this.then = this.now;
+      requestAnimationFrame(this.main.bind(this));
+    }
     this.render();
-    this.then = this.now;
-    requestAnimationFrame(this.main.bind(this));
   }
   setKeysDown(newObj){
     this.keysDown = newObj;
+  }
+  checkGameEnd(){
+    if(this.sheep.activeSheep.length === 0){
+      // alert('Game is Over!')
+      return true;
+    }
+    return false;
   }
 }
