@@ -97,6 +97,9 @@ if(TARGET === 'build'){
       })
     },
     plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+        name: ['vendor' , 'manifest']
+      }),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV' : '"production"'
       }),
