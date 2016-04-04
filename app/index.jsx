@@ -1,8 +1,7 @@
-import './main.scss';
+import './main.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import App from './components/App.jsx';
 
 import SheepGame from './gameRender/main';
 
@@ -10,5 +9,5 @@ import SheepGame from './gameRender/main';
 
 ReactDOM.render(
   <SheepGame />,
-  document.querySelector('#main')
+  document.querySelector('#app')
 )

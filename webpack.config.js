@@ -3,6 +3,8 @@ const merge = require('webpack-merge')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const NpmInstallPlugin = require('npm-install-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanPlugin = require('clean-webpack-plugin')
 
 const pkg = require('./package.json')
 
@@ -10,7 +12,8 @@ const TARGET = process.env.npm_lifecycle_event;
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
+  build: path.join(__dirname, 'build'),
+  style: path.join(__dirname, 'app/main.css')
 }
 
 process.env.BABEL_ENV = TARGET;
@@ -20,7 +23,8 @@ const common = {
 
 
   entry: {
-    app: PATHS.app
+    app: PATHS.app,
+    style: PATHS.style
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -30,6 +34,11 @@ const common = {
     filename: '[name].js'
   },
   module: {
+    // postLoaders: [
+    //   {
+    //     loader: "transform?brfs"
+    //   }
+    // ],
     loaders: [
       {
         test: /\.jsx?$/,
@@ -37,21 +46,23 @@ const common = {
         include: PATHS.app
       }
     ],
-    postLoaders: [
-      {
-        loader: "transform?brfs"
-      }
-    ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'node_modules/html-webpack-template/index.ejs',
+      title: 'Aviator app',
+      appMountId: 'app',
+      inject: false
+    })
+  ]
 
 
 };
 
 if (TARGET === 'start' || !TARGET){
   module.exports = merge(common, {
-    devTool: 'eval-source-map',
+    devtool: 'eval-source-map',
     devServer: {
-      contentBase: PATHS.build,
 
       historyApiFallback: true,
       hot: true,
@@ -64,18 +75,11 @@ if (TARGET === 'start' || !TARGET){
 
     },
     module: {
-      preLoaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['eslint'],
-          indlue: PATHS.app
-        }
-      ],
       loaders: [
         {
           //Test expects a RegExp! Note the slashes
-          test: /\.scss$/,
-          loaders: ['style', 'css', 'sass'],
+          test: /\.css$/,
+          loaders: ['style', 'css'],
           include: PATHS.app
         }
       ]
@@ -93,7 +97,7 @@ if(TARGET === 'build'){
   module.exports = merge(common, {
     entry : {
       vendor: Object.keys(pkg.dependencies).filter(function(v){
-        return v !== 'alt-utils'
+        return v !== 'alt-utils';
       })
     },
     output:{
@@ -101,7 +105,17 @@ if(TARGET === 'build'){
       filename: '[name].[chunkhash].js',
       chunkFilename: '[chunkhash].js'
     },
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract('style', 'css'),
+          include: PATHS.app
+        }
+      ]
+    },
     plugins: [
+      new CleanPlugin([PATHS.build]),
       new webpack.optimize.CommonsChunkPlugin({
         name: ['vendor' , 'manifest']
       }),
@@ -112,18 +126,7 @@ if(TARGET === 'build'){
         compress: {
           warnings: false
         }
-      })
-    ],
-    module: {
-      loaders: [
-        {
-          test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('style', 'css', 'scss'),
-          include: PATHS.app
-        }
-      ]
-    },
-    plugins: [
+      }),
       new ExtractTextPlugin('[name].[chunkhash].css')
     ]
   });
