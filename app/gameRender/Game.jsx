@@ -16,7 +16,7 @@ export default class Game {
   }
   update(modifier){
     this.dog.update(modifier, this.keysDown);
-    // this.sheep.update();
+    this.sheep.update(modifier, this.dog, this.pen);
   }
   render(){
     this.ctx.fillStyle = 'rgb(67,247,51)'
@@ -34,13 +34,6 @@ export default class Game {
     this.then = this.now;
     requestAnimationFrame(this.main.bind(this));
   }
-  // addKey(e){
-  //   this.keysDown[e.keyCode] = true;
-  // }
-  // removeKey(e){
-  //   console.log(e);
-  //   delete this.keysDown[e.keyCode];
-  // }
   setKeysDown(newObj){
     this.keysDown = newObj;
   }

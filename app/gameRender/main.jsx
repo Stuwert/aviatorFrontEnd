@@ -7,12 +7,10 @@ let game = new Game(1);
 
 let keysDown = {}
 
-//I think the event listeners need to live with the main game loop
-//
-// addEventListener('keydown', game.addKey, false)
-// addEventListener('keyup', game.removeKey, false)
-
 addEventListener('keydown', function(e){
+  if (e.keyCode < 40 && e.keyCode > 36){
+    e.preventDefault();
+  }
   keysDown[e.keyCode] = true;
   game.setKeysDown(keysDown);
 }, false)
@@ -21,11 +19,6 @@ addEventListener('keyup', function(e){
   delete keysDown[e.keyCode];
   game.setKeysDown(keysDown);
 }, false)
-
-
-
-// let w = window;
-// let requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
 game.render();
 game.main();

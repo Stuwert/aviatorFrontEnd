@@ -12,8 +12,12 @@ export default class SheepGroup {
   }
 }
 
-SheepGroup.prototype.update = function(){
-
+SheepGroup.prototype.update = function(modifier, dog, pen){
+  this.activeSheep.forEach(function(sheep){
+    sheep.dogDistance(dog);
+    sheep.move(modifier);
+    sheep.collisionDetect(pen);
+  })
 }
 
 SheepGroup.prototype.render = function(ctx){
