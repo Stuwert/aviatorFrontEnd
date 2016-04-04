@@ -90,6 +90,9 @@ if (TARGET === 'start' || !TARGET){
 if(TARGET === 'build'){
   module.exports = merge(common, {
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV' : '"production"'
+      }),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false
