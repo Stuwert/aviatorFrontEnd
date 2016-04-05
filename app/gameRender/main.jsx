@@ -1,10 +1,11 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import Canvas from './canvas.jsx'
-import Game from './Game.jsx'
+
 import SheepActive from './gameInformation/SheepActive.jsx'
 import SheepLost from './gameInformation/SheepLost.jsx'
 import SheepPenned from './gameInformation/SheepPenned.jsx'
+
 import sockets from './sockets.js'
 
 
