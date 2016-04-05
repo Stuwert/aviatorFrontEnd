@@ -603,7 +603,7 @@ webpackJsonp([0,3],{
 	};
 
 	SheepConstructor.prototype.moveTowardsPen = function (modifier) {
-	  var DAMPEN_DOG_EFFECT = 90;
+	  var DAMPEN_DOG_EFFECT = 70;
 	  var xDirection = (this.penLocation[0] - this.x) / Math.abs(this.x - this.penLocation[0]);
 	  var yDirection = (this.penLocation[1] - this.y) / Math.abs(this.y - this.penLocation[1]);
 	  var xMoveTowardsPen = this.speed * xDirection;
