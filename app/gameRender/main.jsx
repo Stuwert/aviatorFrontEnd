@@ -6,67 +6,6 @@ import SheepActive from './gameInformation/SheepActive.jsx'
 import SheepLost from './gameInformation/SheepLost.jsx'
 import SheepPenned from './gameInformation/SheepPenned.jsx'
 
-import sockets from './sockets.js'
-
-
-import io from 'socket.io-client'
-
-let currDomain = 'localhost'
-let port = '3000'
-
-
-let socket = io.connect('http://' + currDomain + ':' + port);
-
-let keysDown = {}
-
-addEventListener('keydown', function(e){
-  e.preventDefault();
-  keysDown[e.keyCode] = true;
-  game.setKeysDown(keysDown);
-}, false)
-
-addEventListener('keyup', function(e){
-  delete keysDown[e.keyCode];
-  game.setKeysDown(keysDown);
-}, false)
-
-let game;
-
-document.addEventListener("DOMContentLoaded", function(){
-
-  socket.on('verify', function(message){
-    // alert(message)
-    socket.emit('joinGame', 'testuser');
-  })
-
-  socket.on('gameRooms', function(gameRooms){
-    console.log(gameRooms);
-  })
-
-  socket.on('updateGame', function(information){
-    console.log('bingBong');
-    game.triggerUpdate();
-  })
-
-  // document.querySelector('button').addEventListener('click', function(){
-  //   var chatVal = document.querySelector('input').value;
-  //   socket.emit('updateGame', chatVal);
-  // })
-
-  socket.on('gameStart', function(information, sheepNum){
-
-    console.log(information);
-    game = new Game(sheepNum);
-
-    let onFire = new Event('gameUpdate');
-
-    game.initializeGame(onFire);
-
-    game.render();
-  })
-
-})
-
 
 export default class SheepGame extends React.Component{
   constructor(){
