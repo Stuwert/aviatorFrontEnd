@@ -38,10 +38,12 @@ export default class Game {
     this.update(this.delta / 1000)
     if(!this.checkGameEnd()){
       this.then = this.now;
-      requestAnimationFrame(this.main.bind(this));
     }
     this.render();
     dispatchEvent(this.eventToDispatch)
+  }
+  triggerUpdate(){
+    requestAnimationFrame(this.main.bind(this));
   }
   setKeysDown(newObj){
     this.keysDown = newObj;

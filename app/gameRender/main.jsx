@@ -43,9 +43,8 @@ document.addEventListener("DOMContentLoaded", function(){
   })
 
   socket.on('updateGame', function(information){
-    var newUl = document.createElement("ul");
-    newUl.innerText = information;
-    document.querySelector('ul').appendChild(newUl);
+    console.log('bingBong');
+    game.triggerUpdate();
   })
 
   // document.querySelector('button').addEventListener('click', function(){
@@ -63,8 +62,6 @@ document.addEventListener("DOMContentLoaded", function(){
     game.initializeGame(onFire);
 
     game.render();
-    game.main();
-
   })
 
 })
