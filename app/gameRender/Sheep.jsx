@@ -92,7 +92,7 @@ SheepConstructor.prototype.moveTowardsWall = function(modifier, xDirection, yDir
 }
 
 SheepConstructor.prototype.moveTowardsPen = function(modifier){
-  const DAMPEN_DOG_EFFECT = 90;
+  const DAMPEN_DOG_EFFECT = 70;
   let xDirection = (this.penLocation[0] - this.x) / Math.abs(this.x - this.penLocation[0]);
   let yDirection = (this.penLocation[1] - this.y) / Math.abs(this.y - this.penLocation[1]);
   let xMoveTowardsPen = this.speed  * xDirection
