@@ -1,10 +1,11 @@
+
 export default class Dog {
   constructor(){
     this.x = 0;
     this.y = 0;
     this.speed = 150;
     this.image = new Image();
-    this.image.src = './dog.png'
+    this.image.src = require('../images/dog.png')
   }
 }
 

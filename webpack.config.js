@@ -13,7 +13,8 @@ const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   app: path.join(__dirname, 'app'),
   build: path.join(__dirname, 'build'),
-  style: path.join(__dirname, 'app/main.css')
+  style: path.join(__dirname, 'app/main.css'),
+  images: path.join(__dirname, 'app/images')
 }
 
 process.env.BABEL_ENV = TARGET;
@@ -44,6 +45,11 @@ const common = {
         test: /\.jsx?$/,
         loaders: ['babel?cacheDirectory'],
         include: PATHS.app
+      },
+      {
+        test: /\.(jpg|png)$/,
+        loader: 'url?limit=25000',
+        include: PATHS.images
       }
     ],
   },

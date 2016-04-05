@@ -12,6 +12,8 @@ export default class SheepConstructor{
     this.deltaY = 0;
     this.deltaX = 0;
     this.penLocation;
+    this.image = new Image();
+    this.image.src = require('../images/sheep.png')
   }
 }
 

@@ -30,7 +30,7 @@ SheepGroup.prototype.loseSheep = function(i){
 SheepGroup.prototype.render = function(ctx){
   this.activeSheep.forEach(function(sheep){
     ctx.fillStyle = 'rgb(250, 250, 250)'
-    ctx.fillRect(sheep.x - 5, sheep.y - 5, 10, 10)
+    ctx.drawImage(sheep.image,sheep.x - 5, sheep.y - 5)
   })
 }
 
