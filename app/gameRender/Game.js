@@ -33,7 +33,6 @@ Game.prototype.renderGame = function(){
   this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.drawImage(this.dog1.image, this.dog1.x - this.dog1.width / 2, this.dog1.y - this.dog1.width / 2);
   this.ctx.drawImage(this.pen.image, this.pen.x - this.pen.width / 2, this.pen.y - this.pen.width / 2)
-  console.log(this.dog1.x);
   let that = this;
   let sheepImage = this.sheep.image;
   let sheepWidth = this.sheep.width;

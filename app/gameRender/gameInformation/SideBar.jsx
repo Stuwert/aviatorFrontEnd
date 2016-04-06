@@ -9,9 +9,9 @@ export default class SideBar extends React.Component{
   render(){
     return(
       <div>
-        <SheepActive number={this.props.status.activeSheep} />
-        <SheepLost number={this.props.status.lostSheep} />
-        <SheepPenned number={this.props.status.pennedSheep} />
+        <SheepActive number={this.props.status.sheepActive} />
+        <SheepLost number={this.props.status.sheepLost} />
+        <SheepPenned number={this.props.status.sheepPenned} />
       </div>
     )
   }

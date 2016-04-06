@@ -48,19 +48,23 @@ document.addEventListener("DOMContentLoaded", function(){
   })
 
   socket.on('updateGame', function(newGameObj){
-    game.updateGame(gameObj)
+    game.updateGame(newGameObj)
     socket.emit('keyInformation', keysDown)
+    dispatchEvent(gameUpdate);
   })
 
   socket.on('gameStart', function(gameObj){
     game.updateGame(gameObj);
-    console.log(game);
     dispatchEvent(gameUpdate);
-    // socket.emit('updateGame', keysDown);
-
+    setInterval(sendKeyInfo, 5)
   })
 
 })
+
+function sendKeyInfo(){
+  console.log('bing bong');
+  socket.emit('keyInfo', keysDown);
+}
 
 export default class SheepGame extends React.Component{
   constructor(){
@@ -73,7 +77,6 @@ export default class SheepGame extends React.Component{
     addEventListener('gameUpdate', this.updateGame.bind(this))
   }
   updateGame(){
-    console.log("bing bong");
     game.renderGame();
     this.setState({
       game: game
