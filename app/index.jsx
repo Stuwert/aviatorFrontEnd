@@ -63,10 +63,10 @@ document.addEventListener("DOMContentLoaded", function(){
     game.updateGame(gameObj);
     console.log(game);
     // socket.emit('updateGame', keysDown);
-    // ReactDOM.render(
-    //   <SheepGame game={gameObj} />,
-    //   document.querySelector('#app')
-    // )
+    ReactDOM.render(
+      <SheepGame game={game} />,
+      document.querySelector('#app')
+    )
   })
 
 })

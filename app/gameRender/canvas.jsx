@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom';
 
 export default class CanvasRender extends React.Component {
   componentDidMount(){
-    this.props.canvas.width = 512;
-    this.props.canvas.height = 512;
-    ReactDOM.findDOMNode(this).appendChild(this.props.canvas);
+    ReactDOM.findDOMNode(this).appendChild(this.props.game.canvas);
+    this.props.game.renderGame();
   }
   render(){
     return(

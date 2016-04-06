@@ -17,21 +17,11 @@ export default class SheepGame extends React.Component{
       pennedSheep : null
     }
   }
-  componentDidMount(){
-    addEventListener('gameUpdate', this.updateInformation.bind(this))
-  }
-  updateInformation(){
-    this.setState({
-      activeSheep : game.sheepActiveNumber,
-      lostSheep : game.sheepLostNumber,
-      pennedSheep : game.sheepPennedNumber
-    })
-  }
   render(){
     return(
       <div className="main">
         <div>
-          <Canvas canvas={game.canvas} />
+          <Canvas game={this.props.game} />
         </div>
         <div>
           <SheepActive number={this.state.activeSheep} />
