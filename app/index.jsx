@@ -2,8 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import SheepGame from './gameRender/main';
+
+import Game from './gameRender/Game.js'
 
 
 import io from 'socket.io-client'
@@ -19,7 +20,7 @@ let socket = io.connect('http://' + currDomain + ':' + port);
 let onFire = new Event('gameUpdate');
 
 let keysDown = {}
-let gameObj = {}
+let game = new Game();
 
 addEventListener('keydown', function(e){
   e.preventDefault();
@@ -54,17 +55,13 @@ document.addEventListener("DOMContentLoaded", function(){
   })
 
   socket.on('updateGame', function(newGameObj){
-    gameObj = newGameObj;
+    game.updateGame(gameObj)
     socket.emit('keyInformation', keysDown)
   })
 
-  // document.querySelector('button').addEventListener('click', function(){
-  //   var chatVal = document.querySelector('input').value;
-  //   socket.emit('updateGame', chatVal);
-  // })
-
-  socket.on('gameStart', function(information){
-    console.log(information);
+  socket.on('gameStart', function(gameObj){
+    game.updateGame(gameObj);
+    console.log(game);
     // socket.emit('updateGame', keysDown);
     // ReactDOM.render(
     //   <SheepGame game={gameObj} />,

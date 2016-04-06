@@ -7,6 +7,7 @@ import SheepLost from './gameInformation/SheepLost.jsx'
 import SheepPenned from './gameInformation/SheepPenned.jsx'
 
 
+
 export default class SheepGame extends React.Component{
   constructor(){
     super();
