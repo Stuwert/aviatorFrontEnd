@@ -13,6 +13,11 @@ export default class Game{
     this.ctx = this.canvas.getContext('2d');
     this.canvas.width = 512;
     this.canvas.height = 512;
+    this.status = {
+      sheepPenned: null,
+      sheepActive: null,
+      sheepLost : null
+    }
   }
 }
 
@@ -20,6 +25,7 @@ Game.prototype.updateGame = function(newGameObj){
   this.dog1.setDog(newGameObj.DogsLocation)
   this.sheep.setSheep(newGameObj.SheepLocation)
   this.pen.setPen(newGameObj.PenLocation)
+  this.status = newGameObj.status
 }
 
 Game.prototype.renderGame = function(){
