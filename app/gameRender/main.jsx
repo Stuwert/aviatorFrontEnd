@@ -6,26 +6,30 @@ import Canvas from './canvas.jsx'
 import SideBar from './gameInformation/SideBar.jsx'
 
 
-
 import Game from './Game.js'
 
 
 // setting sockets information
 import io from 'socket.io-client'
 
+// const currDomain = '192.168.1.148'
+// const port = '3000'
 const currDomain = 'localhost'
 const port = '3000'
 
-let socket = io.connect('http://' + currDomain + ':' + port);
 
+let socket = io.connect('http://' + currDomain + ':' + port);
 
 // Define new event and game communication objects
 let gameUpdate = new Event('gameUpdate');
 
-let game = new Game();
 
 //defining game interaction
-let keysDown = {}
+let keysDown = {
+  dogId: null
+}
+
+let game = new Game();
 
 addEventListener('keydown', function(e){
   e.preventDefault();
@@ -39,8 +43,11 @@ addEventListener('keyup', function(e){
 
 document.addEventListener("DOMContentLoaded", function(){
 
-  socket.on('verify', function(message){
-    socket.emit('joinGame', 'testuser');
+
+  socket.on('verify', function(num){
+    game.setId(num)
+    keysDown.dogId = num;
+    socket.emit('joinGame', 'testuser', keysDown.dogId);
   })
 
   socket.on('gameRooms', function(gameRooms){
@@ -62,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function(){
 })
 
 function sendKeyInfo(){
-  console.log('bing bong');
   socket.emit('keyInfo', keysDown);
 }
 
