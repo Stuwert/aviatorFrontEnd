@@ -1,98 +1,115 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
+
+//need to import actions and store
+import gameStore from './stores/gameStore'
+import gameActions from './actions/gameActions'
 
 
 //importing other react components
-import Canvas from './canvas.jsx'
-import SideBar from './gameInformation/SideBar.jsx'
-
-
-import Game from './Game.js'
+// import  GameTutorial from './gameTutorial/GameTutorial.jsx'
+// import  GameLoading from './gameLoading/GameLoading.jsx'
+import GamePlay from './gamePlay/GamePlay.jsx'
+// import  EndScreen from './endGame/EndGame.jsx'
 
 
 // setting sockets information
 import io from 'socket.io-client'
 
-// const currDomain = '192.168.1.148'
-// const port = '3000'
-const currDomain = 'localhost'
-const port = '3000'
-
-
-let socket = io.connect('http://' + currDomain + ':' + port);
-
-// Define new event and game communication objects
-let gameUpdate = new Event('gameUpdate');
-
-
-//defining game interaction
-let keysDown = {
-  dogId: null
-}
-
-let game = new Game();
 
 addEventListener('keydown', function(e){
-  e.preventDefault();
-  keysDown[e.keyCode] = true;
-}, false)
-
-addEventListener('keyup', function(e){
-  delete keysDown[e.keyCode];
-}, false)
-
-
-document.addEventListener("DOMContentLoaded", function(){
-
-
-  socket.on('verify', function(num){
-    game.setId(num)
-    keysDown.dogId = num;
-    socket.emit('joinGame', 'testuser', keysDown.dogId);
-  })
-
-  socket.on('gameRooms', function(gameRooms){
-    console.log(gameRooms);
-  })
-
-  socket.on('updateGame', function(newGameObj){
-    game.updateGame(newGameObj)
-    socket.emit('keyInformation', keysDown)
-    dispatchEvent(gameUpdate);
-  })
-
-  socket.on('gameStart', function(gameObj){
-    game.updateGame(gameObj);
-    dispatchEvent(gameUpdate);
-    setInterval(sendKeyInfo, 5)
-  })
-
+  //gameAction.addKey(e.keyCode)
 })
 
-function sendKeyInfo(){
-  socket.emit('keyInfo', keysDown);
-}
+addEventListener('keyup', function(e){
+  //gameAction.removeKey(e.keyCode)
+})
 
 export default class SheepGame extends React.Component{
   constructor(){
     super();
     this.state = {
-      game: game
+      game: gameStore.getGame(),
+      gameState: gameStore.getGameState()
     };
   }
   componentDidMount(){
-    addEventListener('gameUpdate', this.updateGame.bind(this))
+    // const currDomain = '192.168.1.148'
+    // const port = '3000'
+    const currDomain = 'localhost'
+    const port = '3000'
+
+    var socket = io.connect('http://' + currDomain + ':' + port);
+
+    gameStore.addChangeListener(this.updateGame.bind(this))
+    gameStore.addChangeListener(this.updateGameState.bind(this))
+
+    socket.on('verify', function(id){
+      //sets the dog information
+      gameAction.setGameId(id)
+    })
+
+    socket.on('updateGame', function(newGameObj){
+      gameAction.updateGame(newGameObj)
+    })
+
+    socket.on('gameStart', function(gameState){
+      this.emitKeyInfo();
+      gameAction.updateGameState(gameState)
+    })
+
+    socket.on('gameEnd', function(gameState){
+      gameAction.updateGameState(gameState)
+    })
+
   }
+  componentWillUnMount(){
+    gameStore.removeChangeListener(this.updateGame);
+  }
+
   updateGame(){
-    game.renderGame();
     this.setState({
-      game: game
+      game: gameStore.getGameInformation()
     })
   }
+  updateGameState(){
+    this.setState({
+      gameState: gameStore.getGameState()
+    })
+  }
+  emitKeyInfo(){
+    let keyInfo = gameStore.getKeysDown()
+    socket.emit('keyInfo', keyInfo)
+    if(this.state.gameState === 'gamePlay'){
+      setInterval(this.emitKeyInfo, 5)
+    }
+  }
+  joinGame(){
+    // let dogId = 'e'
+    // socket.emit('joinGame', 'testuser', dogId/* DogId is a reference to Store */);
+  }
   render(){
+    let returnStatement;
+
+    switch(this.state.gameState){
+      case 'gameTutorial':
+        returnStatement = GameTutorial;
+        break;
+      case 'gameLoading':
+        returnStatement = GameLoading;
+        break;
+      case 'gamePlay':
+        returnStatement = GamePlay;
+        break;
+      case 'gameEnd':
+        returnStatement = GameEnd;
+        break;
+    }
+
+
     return(
       <div className="main">
-        <Canvas game={this.state.game} />
-        <SideBar status={this.state.game.status} />
+        {returnStatement}
       </div>
     )
   }
