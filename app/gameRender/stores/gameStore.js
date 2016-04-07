@@ -10,7 +10,7 @@ let CHANGE_EVENT = 'change'
 let _store = {
   game: new Game(),
   id: null,
-  state: 'gameTutorial',
+  gameState: 'gameTutorial',
   keysDown: {}
 }
 
@@ -21,7 +21,7 @@ let setGameInformation = function(newGameObj){
 }
 
 let setGameState = function(newGameState){
-  _store.state = newGameState
+  _store.gameState = newGameState
 }
 
 let setGameId = function(newGameId){
@@ -53,6 +53,9 @@ let gameStore = objectAssign({}, EventEmitter.prototype, {
   },
   getGame: function(){
     return _store.game
+  },
+  getId: function(){
+    return _store.id
   }
 })
 

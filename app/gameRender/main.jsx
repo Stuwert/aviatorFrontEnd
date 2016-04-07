@@ -7,15 +7,14 @@ import gameActions from './actions/gameActions'
 
 
 //importing other react components
-import  GameTutorial from './gameTutorial/GameTutorial.jsx'
-import  GameLoading from './gameLoading/GameLoading.jsx'
+import GameTutorial from './gameTutorial/GameTutorial.jsx'
+// import GameLoading from './gameLoading/GameLoading.jsx'
 import GamePlay from './gamePlay/GamePlay.jsx'
-import  GameEnd from './endGame/GameEnd.jsx'
+import GameEnd from './gameEnd/GameEnd.jsx'
 
 
 // setting sockets information
-import io from 'socket.io-client'
-
+import socket from './sockets'
 
 addEventListener('keydown', function(e){
   e.preventDefault();
@@ -25,10 +24,6 @@ addEventListener('keydown', function(e){
 addEventListener('keyup', function(e){
   gameActions.removeKey(e.keyCode)
 })
-
-const currDomain = 'localhost'
-const port = '3000'
-let socket = io.connect('http://' + currDomain + ':' + port);
 
 export default class SheepGame extends React.Component{
   constructor(props){
@@ -49,25 +44,29 @@ export default class SheepGame extends React.Component{
     socket.on('verify', function(id){
       //sets the dog information
       gameActions.setId(id)
-      socket.emit('joinGame', id)
     })
 
     socket.on('updateGame', function(newGameObj){
       gameActions.updateGame(newGameObj)
     })
 
-    socket.on('gameStart', function(gameState){
+    socket.on('gameStart', function(newGameObj, gameState){
       this.emitKeyInfo();
+      gameActions.updateGame(newGameObj)
+      console.log(gameState);
       gameActions.updateGameState(gameState)
+      console.log(gameStore.getGameState());
     }.bind(this))
 
-    socket.on('gameEnd', function(gameState){
+    socket.on('gameEnd', function(gameState, gameInfo){
       gameActions.updateGameState(gameState)
+      gameActions.updateGame(gameInfo)
     })
 
   }
   componentWillUnMount(){
-    gameStore.removeChangeListener(this.updateGame);
+    gameStore.removeChangeListener(this.updateGame.bind(this));
+    gameStore.removeChangeListener(this.updateGameState.bind(this));
   }
 
   updateGame(){
@@ -90,28 +89,24 @@ export default class SheepGame extends React.Component{
     // socket.emit('joinGame', 'testuser', dogId/* DogId is a reference to Store */);
   }
   render(){
-    // let returnStatement;
-    //
-    // switch(this.state.gameState){
-    //   case 'gameTutorial':
-    //     returnStatement = GameTutorial;
-    //     break;
+    let returnStatement;
+
+    switch(this.state.gameState){
+      case 'gameTutorial':
+        return <GameTutorial />
+        break;
     //   case 'gameLoading':
     //     returnStatement = GameLoading;
     //     break;
-    //   case 'gamePlay':
-    //     returnStatement = GamePlay;
-    //     break;
-    //   case 'gameEnd':
-    //     returnStatement = GameEnd;
-    //     break;
-    // }
-
-
-    return(
-      <div className="main">
-        <GamePlay game={this.state.game}/>
-      </div>
-    )
+      case 'gamePlay':
+        return <GamePlay game={this.state.game} />
+        break;
+      case 'gameEnd':
+        return <GameEnd />
+        break;
+      default:
+        return <GameTutorial />;
+        break;
+    }
   }
 }
