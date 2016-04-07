@@ -5,7 +5,7 @@ import Dogs from './gamePieces/Dogs.js';
 
 export default class Game{
   constructor(){
-    // this.id = null;
+    this.id = null;
     this.dogs = new Dogs();
     this.sheep = new Sheep();
     this.pen = new Pen();
@@ -21,9 +21,9 @@ export default class Game{
   }
 }
 
-// Game.prototype.setId = function(id){
-//   this.id = id;
-// }
+Game.prototype.setId = function(id){
+  this.id = id;
+}
 
 Game.prototype.updateGame = function(newGameObj){
   this.dogs.setDog(newGameObj.DogsLocation)

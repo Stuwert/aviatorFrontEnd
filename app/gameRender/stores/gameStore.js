@@ -25,6 +25,7 @@ let setGameState = function(newGameState){
 }
 
 let setGameId = function(newGameId){
+  _store.game.setId(newGameId)
   _store.id = newGameId;
 }
 

@@ -8,7 +8,7 @@ import gameActions from './actions/gameActions'
 
 //importing other react components
 import GameTutorial from './gameTutorial/GameTutorial.jsx'
-// import GameLoading from './gameLoading/GameLoading.jsx'
+import GameLoading from './gameLoading/GameLoading.jsx'
 import GamePlay from './gamePlay/GamePlay.jsx'
 import GameEnd from './gameEnd/GameEnd.jsx'
 
@@ -46,6 +46,10 @@ export default class SheepGame extends React.Component{
       gameActions.setId(id)
     })
 
+    socket.on('gameLoading', function(gameState){
+      gameActions.updateGameState(gameState)
+    })
+
     socket.on('updateGame', function(newGameObj){
       gameActions.updateGame(newGameObj)
     })
@@ -53,9 +57,7 @@ export default class SheepGame extends React.Component{
     socket.on('gameStart', function(newGameObj, gameState){
       this.emitKeyInfo();
       gameActions.updateGame(newGameObj)
-      console.log(gameState);
       gameActions.updateGameState(gameState)
-      console.log(gameStore.getGameState());
     }.bind(this))
 
     socket.on('gameEnd', function(gameState, gameInfo){
@@ -84,10 +86,6 @@ export default class SheepGame extends React.Component{
     socket.emit('keyInfo', keyInfo)
     setInterval(this.emitKeyInfo, 5)
   }
-  joinGame(){
-    // let dogId = 'e'
-    // socket.emit('joinGame', 'testuser', dogId/* DogId is a reference to Store */);
-  }
   render(){
     let returnStatement;
 
@@ -95,9 +93,9 @@ export default class SheepGame extends React.Component{
       case 'gameTutorial':
         return <GameTutorial />
         break;
-    //   case 'gameLoading':
-    //     returnStatement = GameLoading;
-    //     break;
+      case 'gameLoading':
+        return <GameLoading />
+        break;
       case 'gamePlay':
         return <GamePlay game={this.state.game} />
         break;
