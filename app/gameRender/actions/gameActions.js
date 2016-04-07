@@ -6,7 +6,8 @@ import gameConstants from '../constants/gameConstants'
 let gameActions = {
   addKey: function(key){
     GameDispatcher.handleAction({
-      actionType: gameConstants.ADD_KEY
+      actionType: gameConstants.ADD_KEY,
+      data: key
     })
   },
   removeKey: function(key){
@@ -27,7 +28,7 @@ let gameActions = {
       data: gameState
     })
   },
-  updateGameInformation: function(gameInfo){
+  updateGame: function(gameInfo){
     GameDispatcher.handleAction({
       actionType: gameConstants.SET_GAME_INFO,
       data: gameInfo

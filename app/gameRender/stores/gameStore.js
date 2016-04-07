@@ -10,29 +10,29 @@ let CHANGE_EVENT = 'change'
 let _store = {
   game: new Game(),
   id: null,
-  state: null,
+  state: 'gameTutorial',
   keysDown: {}
 }
 
 
 let setGameInformation = function(newGameObj){
   _store.game.updateGame(newGameObj)
+  _store.game.renderGame(); // - dunno if this actually works
 }
 
 let setGameState = function(newGameState){
   _store.state = newGameState
-  _store.game.renderGame(); // - dunno if this actually works
 }
 
 let setGameId = function(newGameId){
   _store.id = newGameId;
 }
 
-let addKeys = function(keyToAdd){
+let addKey = function(keyToAdd){
   _store.keysDown[keyToAdd] = true;
 }
 
-let removeKeys = function(keyToRemove){
+let removeKey = function(keyToRemove){
   delete _store.keysDown[keyToRemove];
 }
 
@@ -60,11 +60,11 @@ GameDispatcher.register(function(payload){
   let action = payload.action;
   switch(action.actionType){
     case gameConstants.ADD_KEY:
-      addKeys(action.data);
+      addKey(action.data);
       gameStore.emit(CHANGE_EVENT);
       break;
     case gameConstants.REMOVE_KEY:
-      removeKeys(action.data);
+      removeKey(action.data);
       gameStore.emit(CHANGE_EVENT);
       break;
     case gameConstants.SET_ID:
