@@ -7,7 +7,8 @@
     "flux": "^2.1.1",
     "react": "^0.14.8",
     "react-canvas": "^1.1.0",
-    "react-dom": "^0.14.8"
+    "react-dom": "^0.14.8",
+    "react-router": "^2.0.1"
   },
   "devDependencies": {
     "acorn": "^3.0.4",
