@@ -6,6 +6,7 @@ export default class App extends React.Component{
     return (
       <div>
         <ul role="nav">
+          <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/game">Games</NavLink></li>
           <li><NavLink to="/movies">Movies</NavLink></li>
           <li><NavLink to="/food">Food</NavLink></li>

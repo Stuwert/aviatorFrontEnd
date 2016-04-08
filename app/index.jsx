@@ -3,7 +3,7 @@
 //Require
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, hashHistory, IndexRoute, Link} from 'react-router'
+import {Router, Route, browserHistory, IndexRoute, Link} from 'react-router'
 import App from './App'
 import Home from './Home'
 
@@ -22,7 +22,7 @@ import Signup from './login/Signup'
 import Admin from './admin/Admin'
 
 ReactDOM.render(
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
     <Route path='/' component={App}>
       <IndexRoute component={Home} />
       <Route path="/login" component={Login} />
