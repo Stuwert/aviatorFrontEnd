@@ -13,7 +13,7 @@ import Movies from './entertainment/Movies'
 import Movie from './entertainment/Movie'
 import Food from './entertainment/Food'
 import OneFood from './entertainment/OneFood'
-import Magazine from './entertainment/Magazine'
+import Articles from './entertainment/Articles'
 import Article from './entertainment/Article'
 import Safety from './entertainment/Safety'
 
@@ -37,8 +37,8 @@ ReactDOM.render(
       <Route path="/movies/:id" component={Movie} />
       <Route path="/food" component={Food} />
       <Route path="/food/:id" component={OneFood} />
-      <Route path="/magazine" component={Magazine} />
-      <Route path="/magazine/:id" component={Article} />
+      <Route path="/articles" component={Articles} />
+      <Route path="/articles/:id" component={Article} />
       <Route path="/safety" component={Safety} />
 
     </Route>

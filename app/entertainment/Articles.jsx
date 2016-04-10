@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default class Magazine extends React.Component{
+export default class Articles extends React.Component{
   render(){
     return(
       <div>
-        This is magazines.
+        This is articles.
       </div>
     )
   }

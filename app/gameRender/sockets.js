@@ -1,6 +1,5 @@
 import io from 'socket.io-client'
 
+import config from '../configinfo'
 
-const currDomain = 'localhost'
-const port = '3000'
-module.exports = io.connect('http://' + currDomain + ':' + port);
+module.exports = io.connect('http://' + config.host + ':' + config.port);
