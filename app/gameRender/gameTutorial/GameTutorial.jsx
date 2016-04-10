@@ -2,7 +2,7 @@
 // emits a socket that joinsGame
 
 import React from 'react'
-import socket from '../sockets'
+import {socket} from '../../configinfo'
 import gameStore from '../stores/gameStore'
 
 export default class GameTutorial {
