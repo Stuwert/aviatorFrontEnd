@@ -17,7 +17,7 @@ import Article from './entertainment/Article'
 import Safety from './entertainment/Safety'
 
 //importing auth info
-import Login from './login/Login'
+import Login from './login/Login.jsx'
 import Signup from './login/Signup'
 
 //importing admin info

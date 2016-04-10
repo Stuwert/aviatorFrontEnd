@@ -17,7 +17,6 @@ import GameEnd from './gameEnd/GameEnd.jsx'
 import {socket} from '../configinfo'
 
 addEventListener('keydown', function(e){
-  e.preventDefault();
   gameActions.addKey(e.keyCode)
 })
 

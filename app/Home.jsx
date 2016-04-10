@@ -1,7 +1,7 @@
 import React from 'react';
 import config from './configinfo'
 import {Link} from 'react-router'
-
+import Login from './login/Login.jsx'
 
 export default class Home extends React.Component{
   constructor(){

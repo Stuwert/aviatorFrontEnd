@@ -10039,19 +10039,77 @@ webpackJsonp([0,3],[
 	var Login = function (_React$Component) {
 	  _inherits(Login, _React$Component);
 
-	  function Login() {
+	  function Login(props) {
 	    _classCallCheck(this, Login);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Login).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Login).call(this, props));
+
+	    _this.state = {
+	      username: '',
+	      password: '',
+	      displayMessage: ''
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Login, [{
+	    key: 'updateUserName',
+	    value: function updateUserName(e) {
+	      this.setState({
+	        username: e.target.value
+	      });
+	      console.log(this.state.username);
+	    }
+	  }, {
+	    key: 'updatePassword',
+	    value: function updatePassword(e) {
+	      console.log('bnig bong');
+	      this.setState({
+	        password: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      // e.preventDefault();
+
+	      this.setState({
+	        username: '',
+	        password: ''
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'This is login.'
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          _react2.default.createElement(
+	            'label',
+	            { htmlFor: 'username' },
+	            'Username:'
+	          ),
+	          _react2.default.createElement('input', { onChange: this.updateUserName.bind(this), value: this.state.username }),
+	          _react2.default.createElement(
+	            'label',
+	            { htmlFor: 'password' },
+	            'Password :'
+	          ),
+	          _react2.default.createElement('input', { onChange: this.updatePassword, value: this.state.password, type: 'password', id: 'password' }),
+	          _react2.default.createElement(
+	            'button',
+	            null,
+	            'Log In'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.state.displayMessage
+	        )
 	      );
 	    }
 	  }]);
@@ -10065,7 +10123,7 @@ webpackJsonp([0,3],[
 /* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -10096,12 +10154,28 @@ webpackJsonp([0,3],[
 	  }
 
 	  _createClass(Signup, [{
-	    key: 'render',
+	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'div',
+	        "form",
 	        null,
-	        'This is signup.'
+	        _react2.default.createElement(
+	          "label",
+	          { htmlFor: "username" },
+	          "Username:"
+	        ),
+	        _react2.default.createElement("input", { type: "number", id: "username" }),
+	        _react2.default.createElement(
+	          "label",
+	          { htmlFor: "password" },
+	          "Password :"
+	        ),
+	        _react2.default.createElement("input", { type: "password", id: "password" }),
+	        _react2.default.createElement(
+	          "button",
+	          null,
+	          "Log In"
+	        )
 	      );
 	    }
 	  }]);
