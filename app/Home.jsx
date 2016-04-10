@@ -25,7 +25,6 @@ export default class Home extends React.Component{
     }).then(function(response){
 
       response.json().then(function(data){
-        console.log(data);
         that.setState(data)
       })
     })
