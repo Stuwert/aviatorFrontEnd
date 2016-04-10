@@ -37,8 +37,8 @@ export default class Admin extends React.Component{
   render(){
     return(
       <div>
-        <Orders />
-        <HelpRequests />
+        <Orders orderRequests={this.state.orderRequests}/>
+        <HelpRequests helpRequests={this.state.helpRequests} />
       </div>
     )
   }
