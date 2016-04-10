@@ -14,9 +14,8 @@ export default class App extends React.Component{
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/game">Games</NavLink></li>
           <li><NavLink to="/movies">Movies</NavLink></li>
-          <li><NavLink to="/movies/1">Test Movies</NavLink></li>
           <li><NavLink to="/food">Food</NavLink></li>
-          <li><NavLink to="/magazine">Magazine</NavLink></li>
+          <li><NavLink to="/articles">Articles</NavLink></li>
           <li><NavLink to="/safety">Safety Information</NavLink></li>
         </ul>
         {this.props.children}

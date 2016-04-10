@@ -66,7 +66,7 @@ export default class Home extends React.Component{
               Games
             </div>
           </Link>
-          <Link to="/magazine">
+          <Link to="/articles">
             <div>
               Articles
             </div>
