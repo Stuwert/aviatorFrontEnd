@@ -10,7 +10,6 @@ export default class App extends React.Component{
       <div>
         <ul role="nav">
           <li><NavLink to="/login">Login</NavLink></li>
-          <li><NavLink to="/signup">Sign-up</NavLink></li>
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/game">Games</NavLink></li>
           <li><NavLink to="/movies">Movies</NavLink></li>

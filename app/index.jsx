@@ -30,7 +30,6 @@ ReactDOM.render(
       <IndexRoute component={Home} />
 
       <Route path="/login" component={Login} />
-      <Route path="/signup" component={Signup} />
       <Route path="/game" component={SheepGame} />
       <Route path="/movies" component={Movies} />
       <Route path="/movies/:name" component={Movie} />
