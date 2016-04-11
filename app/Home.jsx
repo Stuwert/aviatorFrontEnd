@@ -2,6 +2,7 @@ import React from 'react';
 import config from './configinfo'
 import {Link} from 'react-router'
 import Login from './login/Login.jsx'
+import $ from 'jquery'
 
 export default class Home extends React.Component{
   constructor(){
@@ -20,14 +21,12 @@ export default class Home extends React.Component{
   }
   componentDidMount(){
     var that = this;
-    fetch('http://' + config.host + ":" + config.port + "/api/flightinfo", {
+    $.ajax(config.config + "/api/flightinfo", {
       method: 'get'
-    }).then(function(response){
-
-      response.json().then(function(data){
-        that.setState(data)
-      })
-    })
+    }).done(function(data){
+      console.log(data);
+      this.setState(data)
+    }.bind(this))
   }
   render(){
     return(

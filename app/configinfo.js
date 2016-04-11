@@ -1,7 +1,8 @@
 import io from 'socket.io-client'
 
+let link = 'http://localhost:3000'
+
 module.exports = {
-  host: 'localhost',
-  port: '3000',
-  socket: io.connect('http://localhost:3000')
+  config: link,
+  socket: io.connect(link)
 }

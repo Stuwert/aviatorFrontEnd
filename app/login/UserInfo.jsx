@@ -6,6 +6,7 @@ export default class Signup extends React.Component{
     console.log(this.props.isLoggedIn);
     if(this.props.isLoggedIn){
       return(
+        
         <NavLink to="/logout">Log Out</NavLink>
       )
     }else{
