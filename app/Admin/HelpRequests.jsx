@@ -1,5 +1,5 @@
 import React from 'react'
-
+import SocketEvent from './SocketEvent'
 
 class RequestHeader extends React.Component{
   render(){
@@ -10,6 +10,7 @@ class RequestHeader extends React.Component{
           <th>Passenger Name</th>
           <th>Seat</th>
           <th>Request Details</th>
+          <th>Complete ?</th>
         </tr>
       </thead>
     )
@@ -21,11 +22,12 @@ export default class HelpRequests extends React.Component{
     var requests = this.props.helpRequests.map(function(request, i){
       let value = request.seatNumber.toString().concat(request.seatLetter);
       return (
-        <tr key={i}>
+        <tr key={request._id}>
           <td>{request.title}</td>
           <td>{request.passengerName}</td>
           <td>{value}</td>
           <td>{request.details}</td>
+          <td><SocketEvent emitter={"completeHelpRequest"} id={request._id} /></td>
         </tr>
       )
     })

@@ -3,7 +3,6 @@ import NavLink from '../NavLink'
 
 export default class Signup extends React.Component{
   render(){
-    console.log(this.props.isLoggedIn);
     if(this.props.isLoggedIn){
       return(
         
