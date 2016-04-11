@@ -42,6 +42,7 @@ ReactDOM.render(
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
       <Route path="/food" component={Food} />
+      <Route path="/help" component={Help} />
       <Route path="/game" component={SheepGame} />
       <Route path="/movies" component={Movies} />
       <Route path="/movies/:name" component={Movie} />

@@ -6,9 +6,6 @@ import {socket} from '../configinfo'
 import UserStore from '../flux/stores/userStore'
 import userActions from '../flux/actions/userActions'
 
-
-
-
 export default class Admin extends React.Component{
   constructor(){
     super();
@@ -37,8 +34,12 @@ export default class Admin extends React.Component{
   updateOrderRequests(data){
     this.setState({ orderRequests: data })
   }
+  closeHelpRequest(key){
+    console.log(key);
+    // socket.emit('completeHelpRequest', key);
+  }
   render(){
-    if(userStore.getUser().authorization){
+    if(UserStore.getUser().authorization){
       return(
         <div>
           <Orders orderRequests={this.state.orderRequests}/>

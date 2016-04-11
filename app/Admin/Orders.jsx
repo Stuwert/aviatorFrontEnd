@@ -1,4 +1,5 @@
 import React from 'react'
+import SocketEvent from './SocketEvent'
 
 
 class RequestHeader extends React.Component{
@@ -23,7 +24,7 @@ export default class Orders extends React.Component{
         return <li key={j}>{item}</li>
       })
       return (
-        <tr key={i}>
+        <tr key={request._id}>
           <td>{request.passengerName}</td>
           <td>{value}</td>
           <td>
@@ -31,6 +32,7 @@ export default class Orders extends React.Component{
               {items}
             </ul>
           </td>
+          <td><SocketEvent emitter={"completeOrderRequest"} id={request._id} /></td>
         </tr>
       )
     })

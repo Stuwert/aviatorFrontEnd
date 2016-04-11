@@ -33,7 +33,6 @@ class Login extends React.Component{
         password: this.state.password
       }
     }, function(response){
-      console.log(response);
       userActions.setUser({
         authorization: response.authorization,
         name: response.username,
@@ -44,7 +43,6 @@ class Login extends React.Component{
         userExists: true,
         status: response.status
       });
-      // console.log(UserStore.getUser());
       if(UserStore.getUser().authorization){
         browserHistory.push("/admin")
       }else{
