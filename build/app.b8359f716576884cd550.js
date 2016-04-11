@@ -542,9 +542,23 @@ webpackJsonp([0,3],[
 	    value: function render() {
 	      if (this.props.isLoggedIn) {
 	        return _react2.default.createElement(
-	          _NavLink2.default,
-	          { to: '/logout' },
-	          'Log Out'
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            _NavLink2.default,
+	            { to: '/food' },
+	            'Food'
+	          ),
+	          _react2.default.createElement(
+	            _NavLink2.default,
+	            { to: '/help' },
+	            'Help'
+	          ),
+	          _react2.default.createElement(
+	            _NavLink2.default,
+	            { to: '/logout' },
+	            'Log Out'
+	          )
 	        );
 	      } else {
 	        return _react2.default.createElement(
@@ -742,6 +756,10 @@ webpackJsonp([0,3],[
 
 	var _Login2 = _interopRequireDefault(_Login);
 
+	var _jquery = __webpack_require__(275);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -776,14 +794,12 @@ webpackJsonp([0,3],[
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var that = this;
-	      fetch('http://' + _configinfo2.default.host + ":" + _configinfo2.default.port + "/api/flightinfo", {
+	      _jquery2.default.ajax(_configinfo2.default.config + "/api/flightinfo", {
 	        method: 'get'
-	      }).then(function (response) {
-
-	        response.json().then(function (data) {
-	          that.setState(data);
-	        });
-	      });
+	      }).done(function (data) {
+	        console.log(data);
+	        this.setState(data);
+	      }.bind(this));
 	    }
 	  }, {
 	    key: 'render',
@@ -942,10 +958,11 @@ webpackJsonp([0,3],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var link = 'http://localhost:3000';
+
 	module.exports = {
-	  host: 'localhost',
-	  port: '3000',
-	  socket: _socket2.default.connect('http://localhost:3000')
+	  config: link,
+	  socket: _socket2.default.connect(link)
 	};
 
 /***/ },
@@ -8638,7 +8655,7 @@ webpackJsonp([0,3],[
 	    value: function handleSubmit(e) {
 	      var that = this;
 	      e.preventDefault();
-	      _jquery2.default.post('http://' + _configinfo2.default.host + ":" + _configinfo2.default.port + "/api/user/login", {
+	      _jquery2.default.post(_configinfo2.default.config + "/api/user/login", {
 	        body: {
 	          username: this.state.username,
 	          password: this.state.password
@@ -10457,7 +10474,7 @@ webpackJsonp([0,3],[
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var that = this;
-	      fetch('http://' + _configinfo2.default.host + ":" + _configinfo2.default.port + "/api/food", {
+	      fetch(_configinfo2.default.config + "/api/food", {
 	        method: 'get'
 	      }).then(function (response) {
 	        response.json().then(function (data) {

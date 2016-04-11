@@ -5,8 +5,11 @@ export default class Signup extends React.Component{
   render(){
     if(this.props.isLoggedIn){
       return(
-        
-        <NavLink to="/logout">Log Out</NavLink>
+        <div>
+          <NavLink to='/food'>Food</NavLink>
+          <NavLink to='/help'>Help</NavLink>
+          <NavLink to="/logout">Log Out</NavLink>
+        </div>
       )
     }else{
       return (

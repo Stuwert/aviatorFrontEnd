@@ -27,7 +27,7 @@ class Login extends React.Component{
   handleSubmit(e){
     var that = this;
     e.preventDefault();
-    $.post('http://' + config.host + ":" + config.port + "/api/user/login", {
+    $.post(config.config + "/api/user/login", {
       body: {
         username: this.state.username,
         password: this.state.password

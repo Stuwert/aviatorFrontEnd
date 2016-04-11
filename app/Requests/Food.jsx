@@ -20,7 +20,7 @@ export default class Food extends React.Component{
   }
   componentDidMount(){
     var that = this;
-    fetch('http://' + config.host + ":" + config.port + "/api/food", {
+    fetch(config.config + "/api/food", {
       method: 'get'
     }).then(function(response){
       response.json().then(function(data){
