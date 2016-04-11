@@ -1,5 +1,12 @@
 import React from 'react';
 import config from '../configinfo'
+import userStore from '../flux/stores/userStore'
+
+let socket = config.socket;
+
+var handleClick = function(i, content){
+  socket.emit("makeOrderRequest", content, userStore.getUser())
+}
 
 export default class Food extends React.Component{
   constructor(){
@@ -7,6 +14,9 @@ export default class Food extends React.Component{
     this.state = {
       foods: []
     }
+    socket.on('requestReceived', function(received){
+      alert(received)
+    })
   }
   componentDidMount(){
     var that = this;
@@ -21,10 +31,16 @@ export default class Food extends React.Component{
       })
     })
   }
+  _handleClick(){
+
+  }
   render(){
     let displayFoods = this.state.foods.map(function(food, i){
       let contents = food.contents.map(function(content, k){
-        return <li key={k}>{content}</li>
+        return (
+          <li key={k}>{content}</li>
+        )
+
       })
       return (
         <div key={i}>
@@ -40,6 +56,7 @@ export default class Food extends React.Component{
           <ul>
             {contents}
           </ul>
+          <button onClick={handleClick.bind(this, i, food)}>Order Food</button>
         </div>
       )
     })

@@ -17,7 +17,6 @@ import userActions from './flux/actions/userActions'
 import SheepGame from './gameRender/main';
 import Movies from './entertainment/Movies'
 import Movie from './entertainment/Movie'
-import Food from './entertainment/Food'
 import Articles from './entertainment/Articles'
 import Article from './entertainment/Article'
 import Safety from './entertainment/Safety'
@@ -26,6 +25,10 @@ import Safety from './entertainment/Safety'
 import Login from './login/Login.jsx'
 import Logout from './login/Logout.jsx'
 import Signup from './login/Signup'
+
+//importing Requests info
+import Food from './Requests/Food'
+import Help from './Requests/Help'
 
 //importing admin info
 import Admin from './admin/Admin'
@@ -38,10 +41,10 @@ ReactDOM.render(
 
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
+      <Route path="/food" component={Food} />
       <Route path="/game" component={SheepGame} />
       <Route path="/movies" component={Movies} />
       <Route path="/movies/:name" component={Movie} />
-      <Route path="/food" component={Food} />
       <Route path="/articles" component={Articles} />
       <Route path="/articles/:title" component={Article} />
       <Route path="/safety" component={Safety} />
