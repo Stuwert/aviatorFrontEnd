@@ -1,7 +1,0 @@
-module.exports = {
-  ADD_KEY: 'ADD_KEY',
-  REMOVE_KEY: 'REMOVE_KEY',
-  SET_ID: 'SET_ID',
-  SET_GAME_STATE: 'SET_GAME_STATE',
-  SET_GAME_INFO: 'SET_GAME_INFO'
-}

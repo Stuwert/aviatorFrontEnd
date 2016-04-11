@@ -1,4 +1,5 @@
-// require('./main.css')
+require('./normalize.css')
+require('./main.css')
 
 //Require
 import React from 'react';
@@ -6,6 +7,11 @@ import ReactDOM from 'react-dom';
 import {Router, Route, browserHistory, IndexRoute, Link} from 'react-router'
 import App from './App'
 import Home from './Home'
+
+//User Store
+import userStore from './flux/stores/userStore'
+import userActions from './flux/actions/userActions'
+
 
 //importing entertainment
 import SheepGame from './gameRender/main';
@@ -18,6 +24,7 @@ import Safety from './entertainment/Safety'
 
 //importing auth info
 import Login from './login/Login.jsx'
+import Logout from './login/Logout.jsx'
 import Signup from './login/Signup'
 
 //importing admin info
@@ -30,6 +37,7 @@ ReactDOM.render(
       <IndexRoute component={Home} />
 
       <Route path="/login" component={Login} />
+      <Route path="/logout" component={Logout} />
       <Route path="/game" component={SheepGame} />
       <Route path="/movies" component={Movies} />
       <Route path="/movies/:name" component={Movie} />

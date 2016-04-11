@@ -6,3 +6,27 @@
 .main{
   display: flex;
 }
+
+.navbar{
+  margin: 0;
+  width: 100%;
+  background-color: blue;
+  padding: 0;
+}
+
+.active{
+  color: green;
+}
+
+ul.navbar{
+  display: flex;
+}
+
+.navbar a{
+  color: white;
+}
+
+ul.navbar li{
+  margin: 20px;
+  list-style: none;
+}

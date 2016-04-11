@@ -3,6 +3,12 @@ import Orders from './Orders.jsx'
 import HelpRequests from './HelpRequests.jsx'
 import {socket} from '../configinfo'
 
+import UserStore from '../flux/stores/userStore'
+import userActions from '../flux/actions/userActions'
+
+
+
+
 export default class Admin extends React.Component{
   constructor(){
     super();
@@ -11,7 +17,6 @@ export default class Admin extends React.Component{
       orderRequests : []
     }
     var that = this;
-    console.log(this.state);
     socket.on('helpRequests', function(requests){
       that.updateHelpRequests(requests)
     })
@@ -28,18 +33,20 @@ export default class Admin extends React.Component{
   }
   updateHelpRequests(data){
     this.setState({ helpRequests : data })
-    console.log(this.state);
   }
   updateOrderRequests(data){
     this.setState({ orderRequests: data })
-    console.log(this.state);
   }
   render(){
-    return(
-      <div>
-        <Orders orderRequests={this.state.orderRequests}/>
-        <HelpRequests helpRequests={this.state.helpRequests} />
-      </div>
-    )
+    if(userStore.getUser().authorization){
+      return(
+        <div>
+          <Orders orderRequests={this.state.orderRequests}/>
+          <HelpRequests helpRequests={this.state.helpRequests} />
+        </div>
+      )
+    }else{
+      return <div></div>
+    }
   }
 }

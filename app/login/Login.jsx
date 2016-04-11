@@ -1,6 +1,9 @@
 import React from 'react';
 import config from '../configinfo'
 import $ from 'jquery'
+import userActions from '../flux/actions/userActions'
+import UserStore from '../flux/stores/userStore'
+import {browserHistory} from 'react-router'
 
 class Login extends React.Component{
   constructor(props){
@@ -22,6 +25,7 @@ class Login extends React.Component{
     })
   }
   handleSubmit(e){
+    var that = this;
     e.preventDefault();
     $.post('http://' + config.host + ":" + config.port + "/api/user/login", {
       body: {
@@ -29,7 +33,21 @@ class Login extends React.Component{
         password: this.state.password
       }
     }, function(response){
-      console.log(response);
+      userActions.setUser({
+        authorization: response.authorization,
+        name: response.username,
+        seatNumber: response.seatNumber,
+        seatLetter: response.seatLetter,
+        email: response.email,
+        milesEarned: response.milesEarned,
+        userExists: true,
+        status: response.status
+      });
+      if(UserStore.getUser().authorization){
+        browserHistory.push("/admin")
+      }else{
+        browserHistory.push("/")
+      }
     })
   }
   render(){
