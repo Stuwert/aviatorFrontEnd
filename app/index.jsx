@@ -1,6 +1,3 @@
-require('./normalize.css')
-require('./main.css')
-
 //Require
 import React from 'react';
 import ReactDOM from 'react-dom';

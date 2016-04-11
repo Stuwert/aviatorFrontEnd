@@ -13,7 +13,7 @@ const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   app: path.join(__dirname, 'app'),
   build: path.join(__dirname, 'build'),
-  style: path.join(__dirname, 'app/main.css'),
+  style: path.join(__dirname, 'app/css/main.css'),
   images: path.join(__dirname, 'app/images')
 }
 
@@ -35,11 +35,6 @@ const common = {
     filename: '[name].js'
   },
   module: {
-    // postLoaders: [
-    //   {
-    //     loader: "transform?brfs"
-    //   }
-    // ],
     loaders: [
       {
         test: /\.jsx?$/,
