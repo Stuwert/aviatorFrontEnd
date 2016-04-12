@@ -1,5 +1,4 @@
 import React from 'react'
-import UserInfo from './login/UserInfo'
 import {Link}  from 'react-router'
 import {Header, Navigation, Drawer, Content, Layout, Textfield} from 'react-mdl'
 
@@ -33,11 +32,11 @@ export default class App extends React.Component{
   render(){
     return (
       <div>
-        <Layout>
-          <Header title="Aviator" scroll>
+        <Layout fixedHeader>
+          <Header title="Aviator" >
             <Navigation>
               <Link to="/">Home</Link>
-              <UserInfo isLoggedIn={this.state.isLoggedIn}  />
+              {this.state.isLoggedIn ? <Link to="/logout">Log Out</Link> : <Link  to="/login">Log In</Link>}
             </Navigation>
           </Header>
           <Drawer title="Aviator">
@@ -47,7 +46,10 @@ export default class App extends React.Component{
               <Link to="/movies">Movies</Link>
               <Link to="/articles">Articles</Link>
               <Link to="/safety">Safety Information</Link>
-              <UserInfo isLoggedIn={this.state.isLoggedIn}  />
+              {this.state.isLoggedIn ? <Link to='/food'>Food</Link> : null}
+              {this.state.isLoggedIn ? <Link to='/help'>Help</Link> : null}
+              {this.state.isLoggedIn ? <Link to="/logout">Log Out</Link> : null}
+              {!this.state.isLoggedIn ? <Link  to="/login">Log In</Link> : null }
             </Navigation>
           </Drawer>
           <Content>

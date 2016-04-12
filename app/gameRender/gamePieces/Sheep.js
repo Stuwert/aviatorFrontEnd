@@ -3,7 +3,7 @@ export default class Sheep{
     this.width = 10;
     this.sheepArray = [];
     this.image = new Image();
-    this.image.src = require('../../images/sheep.png')
+    this.image.src = require('../../images/game/sheep.png')
   }
 }
 

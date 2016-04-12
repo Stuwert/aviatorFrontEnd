@@ -50,6 +50,7 @@ ReactDOM.render(
       <Route path="/articles/:title" component={Article} />
       <Route path="/safety" component={Safety} />
 
+
     </Route>
 
     <Route path="/admin" component={Admin} />

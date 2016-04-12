@@ -4,7 +4,7 @@ export default class Safety extends React.Component{
   render(){
     return(
       <div>
-        <img src={require('../images/safety.jpg')} />
+        <img src={require('../images/css/safety.jpg')} />
       </div>
     )
   }
