@@ -37,15 +37,11 @@ export default class Home extends React.Component{
   render(){
     return(
       <div>
-        <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--6-col"></div>
           <FlightInfoCard info={this.state} />
-        </div>
-        <div className="mdl-grid">
           <GameCard />
           <MovieCard />
           <ArticleCard />
-        </div>
       </div>
 
     )

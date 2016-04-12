@@ -1,19 +1,19 @@
 import React from 'react';
-import NavLink from '../NavLink'
+import {Link} from 'react-router'
 
 export default class Signup extends React.Component{
   render(){
     if(this.props.isLoggedIn){
       return(
         <div>
-          <NavLink className="mdl-layout__tab" to='/food'>Food</NavLink>
-          <NavLink className="mdl-layout__tab" to='/help'>Help</NavLink>
-          <NavLink className="mdl-layout__tab" to="/logout">Log Out</NavLink>
+            <Link to='/food'>Food</Link>
+            <Link to='/help'>Help</Link>
+            <Link to="/logout">Log Out</Link>
         </div>
       )
     }else{
       return (
-        <NavLink className="mdl-layout__tab" to="/login">Log In</NavLink>
+        <Link  to="/login">Log In</Link>
       )
     }
   }

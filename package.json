@@ -10,6 +10,7 @@
     "react": "^0.14.8",
     "react-canvas": "^1.1.0",
     "react-dom": "^0.14.8",
+    "react-mdl": "^1.5.3",
     "react-router": "^2.0.1"
   },
   "devDependencies": {

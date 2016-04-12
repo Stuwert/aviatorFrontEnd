@@ -1,6 +1,5 @@
-// require('./material.min.js')
-
 // require('file?name=favicon-plane.ico!./favicon-plane.ico');
+require('./material.js')
 
 //Require
 import React from 'react';

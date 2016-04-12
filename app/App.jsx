@@ -1,7 +1,7 @@
 import React from 'react'
-import NavLink from './NavLink'
 import UserInfo from './login/UserInfo'
 import {Link}  from 'react-router'
+import {Header, Navigation, Drawer, Content, Layout, Textfield} from 'react-mdl'
 
 import userStore from './flux/stores/userStore'
 import userActions from './flux/actions/userActions'
@@ -11,10 +11,11 @@ import userActions from './flux/actions/userActions'
 
 
 export default class App extends React.Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      isLoggedIn : false
+      isLoggedIn : false,
+      activeTab: 1
     }
   }
   componentDidMount(){
@@ -31,34 +32,28 @@ export default class App extends React.Component{
   }
   render(){
     return (
-      <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header className="mdl-layout__header">
-          <div className="mdl-layout__header-row">
-
-            <span className="mdl-layout-title">
-              Aviator
-            </span>
-
-          </div>
-
-
-            <nav className="mdl-layout_navigation ">
-              <NavLink className="mdl-layout__tab" to="/">Home</NavLink>
-              <NavLink className="mdl-layout__tab" to="/game">Games</NavLink>
-              <NavLink className="mdl-layout__tab" to="/movies">Movies</NavLink>
-              <NavLink className="mdl-layout__tab" to="/articles">Articles</NavLink>
-              <NavLink className="mdl-layout__tab" to="/safety">Safety Information</NavLink>
+      <div>
+        <Layout>
+          <Header title="Aviator" scroll>
+            <Navigation>
+              <Link to="/">Home</Link>
               <UserInfo isLoggedIn={this.state.isLoggedIn}  />
-            </nav>
-        </header>
-
-        <main className="mdl-layout__content">
-          <div className="page-content">
-            {this.props.children}
-          </div>
-        </main>
-
-
+            </Navigation>
+          </Header>
+          <Drawer title="Aviator">
+            <Navigation>
+              <Link to="/">Home</Link>
+              <Link to="/game">Games</Link>
+              <Link to="/movies">Movies</Link>
+              <Link to="/articles">Articles</Link>
+              <Link to="/safety">Safety Information</Link>
+              <UserInfo isLoggedIn={this.state.isLoggedIn}  />
+            </Navigation>
+          </Drawer>
+          <Content>
+            <div className="page-content">{this.props.children}</div>
+          </Content>
+        </Layout>
       </div>
     )
   }
