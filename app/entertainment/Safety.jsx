@@ -4,7 +4,7 @@ export default class Safety extends React.Component{
   render(){
     return(
       <div>
-        This is safety.
+        <img src={require('../images/safety.jpg')} />
       </div>
     )
   }

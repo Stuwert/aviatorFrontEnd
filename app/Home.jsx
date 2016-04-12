@@ -47,6 +47,7 @@ export default class Home extends React.Component{
           <ArticleCard />
         </div>
       </div>
+
     )
   }
 }

@@ -4,6 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "dependencies": {
+    "file": "^0.2.2",
     "flux": "^2.1.1",
     "jquery": "^2.2.3",
     "react": "^0.14.8",
