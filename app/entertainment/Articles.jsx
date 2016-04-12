@@ -1,6 +1,8 @@
 import React from 'react';
 import config from '../configinfo'
 import {Link} from 'react-router'
+import {Card, CardTitle, CardActions, CardText, Button, Grid, Cell} from 'react-mdl'
+
 
 export default class Articles extends React.Component{
 
@@ -27,20 +29,25 @@ export default class Articles extends React.Component{
   render(){
     var articles = this.state.articles.map(function(article){
       return (
-        <div key={article._id}>
-          <Link to={`/articles/${article.title}`}>
-            <h2>{article.title}</h2>
-          </Link>
-            <p>{article.imageUrl}</p>
-            <p>{article.author}</p>
-            <p>{article.blurb}</p>
-        </div>
+        <Cell col={12} key={article._id}>
+          <Card shadow={0} style={{width: '100%'}}>
+            <CardTitle style={{height: '65%', background: `url(${article.imageUrl})`}}>
+              <Link to={`/articles/${article.title}`}>
+                {article.title}
+              </Link>
+            </CardTitle>
+            <CardText>
+              <p>By: {article.author}</p>
+              <p>{article.blurb}</p>
+            </CardText>
+          </Card>
+        </Cell>
       )
     })
     return(
-      <div>
+      <Grid>
         {articles}
-      </div>
+      </Grid>
     )
   }
 }

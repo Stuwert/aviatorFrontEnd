@@ -4,6 +4,7 @@ import $ from 'jquery'
 import userActions from '../flux/actions/userActions'
 import UserStore from '../flux/stores/userStore'
 import {browserHistory} from 'react-router'
+import {Button, Card, CardTitle, CardText, Textfield, Grid, Cell} from 'react-mdl'
 
 class Login extends React.Component{
   constructor(props){
@@ -52,17 +53,29 @@ class Login extends React.Component{
   }
   render(){
     return(
-      <div>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <label htmlFor="username">Username:</label>
-          <input onChange={this.updateUserName.bind(this)} value={this.state.username}/>
-          <label htmlFor="password">Pasword :</label>
-          <input onChange={this.updatePassword.bind(this)} value={this.state.password} type="password" id="password" />
-          <button type='submit'>Log In</button>
-        </form>
-        <p>{this.state.displayMessage}</p>
-      </div>
-
+      <Grid>
+        <Cell align={'middle'} col={6}>
+          <Card shadow={0}>
+            <CardTitle className="mdl-color__primary">Login </CardTitle>
+            <CardText>
+              <form onSubmit={this.handleSubmit.bind(this)}>
+                <Textfield
+                  onChange={this.updateUserName.bind(this)}
+                  label="Username"
+                  floatingLabel
+                  />
+                <Textfield
+                  onChange={this.updatePassword.bind(this)}
+                  label="password"
+                  floatingLabel
+                  inputClassName="password"
+                  />
+                <Button raised ripple>Log In</Button>
+              </form>
+            </CardText>
+          </Card>
+        </Cell>
+      </Grid>
     )
   }
 }

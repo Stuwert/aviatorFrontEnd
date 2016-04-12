@@ -1,6 +1,8 @@
 import React from 'react';
 import config from '../configinfo'
 import userStore from '../flux/stores/userStore'
+import {Card, CardTitle, CardActions, CardText, Button, Grid, Cell} from 'react-mdl'
+
 
 let socket = config.socket;
 
@@ -43,27 +45,33 @@ export default class Food extends React.Component{
 
       })
       return (
-        <div key={i}>
-          <h3>{food.name}</h3>
-          <div>{food.imageUrl}</div>
-          <ul>
-            <li>{food.price}</li>
-            <li>{food.calories}</li>
-            <li>Gluten Free: {food.glutenFree}</li>
-            <li>Vegetarian: {food.vegetarian}</li>
-            <li>Vegan: {food.vegan}</li>
-          </ul>
-          <ul>
-            {contents}
-          </ul>
-          <button onClick={handleClick.bind(this, i, food)}>Order Food</button>
-        </div>
+        <Cell col={4} key={food._id}>
+          <Card shadow={0} style={{width: '100%', background: `url${food.imageUrl}`, margin: 'auto'}}>
+            <CardTitle>
+              {food.name}
+            </CardTitle>
+            <CardText>
+              <p>Only {food.calories}</p>
+              <p>with</p>
+              <ul>{contents}</ul>
+              <h6>More Details:</h6>
+              <ul>
+                {food.glutenFree ? <li>Gluten Free</li> : null}
+                {food.vegetarian ? <li>Vegetarian</li> : null}
+                {food.vegan ? <li>Vegan</li> : null}
+              </ul>
+            </CardText>
+            <CardActions>
+              <Button onClick={handleClick.bind(this, i, food)} colored raised>Order {food.price}</Button>
+            </CardActions>
+          </Card>
+        </Cell>
       )
     })
     return(
-      <div>
+      <Grid>
         {displayFoods}
-      </div>
+      </Grid>
     )
   }
 }

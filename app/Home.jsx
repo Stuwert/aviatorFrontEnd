@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 import Login from './login/Login.jsx'
 import $ from 'jquery'
 import {Grid, Cell} from 'react-mdl'
-// import UserStore from '../flux/stores/userStore'
+import UserStore from './flux/stores/userStore'
 
 //import cards
 import ArticleCard from './Home/ArticleCard'
@@ -40,12 +40,11 @@ export default class Home extends React.Component{
     }.bind(this))
   }
   render(){
-    // {userStore.getUser().exists ? <Hello /> : <Welcome />}
     return(
       <div>
         <Grid>
           <Cell phone={12} tablet={12} col={6}>
-            <Welcome />
+            {UserStore.getUser().userExists ? <Hello /> : <Welcome />}
           </Cell>
           <Cell phone={12} tablet={12} col={6}>
             <FlightInfoCard info={this.state} />
