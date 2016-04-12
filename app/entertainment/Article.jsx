@@ -15,7 +15,7 @@ export default class Article extends React.Component{
   }
   componentDidMount(){
     var that = this;
-    fetch('http://' + config.host + ":" + config.port + "/api/articles/" + this.props.params.title, {
+    fetch(config.config + "/api/articles/" + this.props.params.title, {
       method: 'get'
     }).then(function(response){
 

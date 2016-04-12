@@ -5,7 +5,7 @@ import React from 'react'
 import {socket} from '../../configinfo'
 import gameStore from '../stores/gameStore'
 
-export default class GameTutorial {
+export default class GameTutorial extends React.Component {
   handleClick(){
     let id = gameStore.getId();
     socket.emit('joinGame', id)

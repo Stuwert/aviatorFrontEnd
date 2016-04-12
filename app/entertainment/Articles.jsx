@@ -12,7 +12,7 @@ export default class Articles extends React.Component{
   }
   componentDidMount(){
     var that = this;
-    fetch('http://' + config.host + ":" + config.port + "/api/articles", {
+    fetch(config.config + "/api/articles", {
       method: 'get'
     }).then(function(response){
 

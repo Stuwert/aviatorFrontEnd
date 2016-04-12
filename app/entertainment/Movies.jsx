@@ -12,7 +12,7 @@ export default class Movies extends React.Component{
   }
   componentDidMount(){
     var that = this;
-    fetch('http://' + config.host + ":" + config.port + "/api/movies", {
+    fetch(config.config + "/api/movies", {
       method: 'get'
     }).then(function(response){
 

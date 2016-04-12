@@ -16,13 +16,6 @@ import GameEnd from './gameEnd/GameEnd.jsx'
 // setting sockets information
 import {socket} from '../configinfo'
 
-addEventListener('keydown', function(e){
-  gameActions.addKey(e.keyCode)
-})
-
-addEventListener('keyup', function(e){
-  gameActions.removeKey(e.keyCode)
-})
 
 export default class SheepGame extends React.Component{
   constructor(props){
@@ -35,10 +28,17 @@ export default class SheepGame extends React.Component{
   componentDidMount(){
     // const currDomain = '192.168.1.148'
     // const port = '3000'
+    const node = ReactDOM.findDOMNode(this);
+
+    const addEvent = node.addEventListener || node.attachEvent;
+
+    addEvent('keydown', this.handleKeyPress, false);
+    addEvent('keyup', this.handleKeyUp, false);
 
 
     gameStore.addChangeListener(this.updateGame.bind(this))
     gameStore.addChangeListener(this.updateGameState.bind(this))
+    // gameActions.updateGameState('gameTutorial')
 
     socket.on('verify', function(id){
       //sets the dog information
@@ -59,17 +59,32 @@ export default class SheepGame extends React.Component{
       gameActions.updateGameState(gameState)
     }.bind(this))
 
-    socket.on('gameEnd', function(gameState, gameInfo){
-      gameActions.updateGameState(gameState)
+    socket.on('gameEnd', function(gameInfo){
+      gameActions.updateGameState('gameEnd')
       gameActions.updateGame(gameInfo)
     })
 
+    socket.on('gameCancelled', function(info){
+      alert(info);
+    })
+
   }
-  componentWillUnMount(){
+  componentWillUnmount(){
+    const node = ReactDOM.findDOMNode(this);
+    const removeEvent = node.removeEventListener || node.detachEvent;
+    let keyInfo = gameStore.getKeysDown()
+    socket.emit('leaveGame', keyInfo)
+    socket.removeListener('verify')
+    socket.removeListener('gameLoading')
+    socket.removeListener('updateGame')
+    socket.removeListener('gameStart')
+    socket.removeListener('gameEnd')
+    socket.removeListener('gameCancelled')
+    removeEvent('keydown', this.handleKeyPress, false);
+    removeEvent('keyup', this.handleKeyUp, false);
     gameStore.removeChangeListener(this.updateGame.bind(this));
     gameStore.removeChangeListener(this.updateGameState.bind(this));
   }
-
   updateGame(){
     this.setState({
       game: gameStore.getGame()
@@ -84,6 +99,19 @@ export default class SheepGame extends React.Component{
     let keyInfo = gameStore.getKeysDown()
     socket.emit('keyInfo', keyInfo)
     setInterval(this.emitKeyInfo, 5)
+  }
+  handleKeyUp(e){
+    if (e.keyCode > 36 && e.keyCode < 41){
+      e.preventDefault();
+      console.log('keyup');
+      gameActions.removeKey(e.keyCode);
+    }
+  }
+  handleKeyPress(e){
+    if (e.keyCode > 36 && e.keyCode < 41){
+      e.preventDefault();
+      gameActions.addKey(e.keyCode);
+    }
   }
   render(){
     let returnStatement;
@@ -102,7 +130,7 @@ export default class SheepGame extends React.Component{
         return <GameEnd />
         break;
       default:
-        return <GameTutorial />;
+        return <GameTutorial />
         break;
     }
   }

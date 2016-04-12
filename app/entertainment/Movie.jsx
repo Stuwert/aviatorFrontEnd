@@ -18,7 +18,7 @@ export default class Movie extends React.Component{
   }
   componentDidMount(){
     var that = this;
-    fetch('http://' + config.host + ":" + config.port + "/api/movies/" + this.props.params.name, {
+    fetch(config.config + "/api/movies/" + this.props.params.name, {
       method: 'get'
     }).then(function(response){
 
