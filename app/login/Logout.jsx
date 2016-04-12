@@ -8,7 +8,7 @@ export default class Logout extends React.Component{
   }
   render(){
     return (
-      <div>Thanks for showing up!</div>
+      <div id="logout">Thanks for showing up!</div>
     )
   }
 }

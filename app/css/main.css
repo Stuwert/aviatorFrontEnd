@@ -67,6 +67,23 @@
   background-size: 100%;
 }
 
+#endGame{
+  position:relative;
+}
+
+#endGame::after{
+  content:"";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.45;
+  background-image: url('../images/css/endgamebaah.jpg');
+  position: absolute;
+  z-index: -1;
+  background-size: 100%;
+}
+
 .password{
   text-security: disc;
   -webkit-text-security: disc;

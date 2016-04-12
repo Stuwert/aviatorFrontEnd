@@ -127,7 +127,7 @@ export default class SheepGame extends React.Component{
         return <GamePlay game={this.state.game} />
         break;
       case 'gameEnd':
-        return <GameEnd />
+        return <GameEnd status={this.state.game.status}/>
         break;
       default:
         return <GameTutorial />

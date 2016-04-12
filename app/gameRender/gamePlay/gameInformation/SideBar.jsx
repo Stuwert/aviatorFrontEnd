@@ -1,18 +1,21 @@
 import React from 'react';
-
-import SheepActive from './SheepActive.jsx'
-import SheepLost from './SheepLost.jsx'
-import SheepPenned from './SheepPenned.jsx'
+import {List, ListItem, ListItemContent} from 'react-mdl'
 
 
 export default class SideBar extends React.Component{
   render(){
     return(
-      <div>
-        <SheepActive number={this.props.status.sheepActive} />
-        <SheepLost number={this.props.status.sheepLost} />
-        <SheepPenned number={this.props.status.sheepPenned} />
-      </div>
+      <List>
+        <ListItem twoLine>
+          <ListItemContent subtitle={'Remaining Sheep'}>{this.props.status.sheepActive}</ListItemContent>
+        </ListItem>
+        <ListItem twoLine>
+          <ListItemContent subtitle={'Sheep Lost'}>{this.props.status.sheepLost}</ListItemContent>
+        </ListItem>
+        <ListItem twoLine>
+          <ListItemContent subtitle={'Sheep Saved'}>{this.props.status.sheepPenned}</ListItemContent>
+        </ListItem>
+      </List>
     )
   }
 }
