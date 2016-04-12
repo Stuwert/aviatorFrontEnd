@@ -44,17 +44,17 @@ export default class Home extends React.Component{
     return(
       <div>
         <Grid>
-          <Cell col={6}>
+          <Cell phone={12} tablet={12} col={6}>
             <Welcome />
           </Cell>
-          <Cell col={6}>
+          <Cell phone={12} tablet={12} col={6}>
             <FlightInfoCard info={this.state} />
           </Cell>
         </Grid>
         <Grid>
-          <Cell col={4}><GameCard /></Cell>
-          <Cell col={4}><MovieCard /></Cell>
-          <Cell col={4}><ArticleCard /></Cell>
+          <Cell phone={6} col={4}><GameCard /></Cell>
+          <Cell phone={6} col={4}><MovieCard /></Cell>
+          <Cell align={'middle'} phone={6} col={4}><ArticleCard /></Cell>
         </Grid>
       </div>
     )

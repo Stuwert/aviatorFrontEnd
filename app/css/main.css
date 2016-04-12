@@ -1,2 +1,68 @@
 @import './material.indigo-green.min.css';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+#flightInfo{
+  position: relative;
+}
+
+#flightInfo::after{
+  content:"";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.35;
+  background-image: url('../images/css/background-home.jpg');
+  position: absolute;
+  z-index: -1;
+  background-size: 100%;
+}
+
+#gameBackground{
+  position:relative;
+}
+
+#gameBackground::after{
+  content:"";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.25;
+  background-image: url('../images/css/game-background.jpg');
+  position: absolute;
+  z-index: -1;
+  background-size: 100%;
+}
+#movieBackground{
+  position:relative;
+}
+
+#movieBackground::after{
+  content:"";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.25;
+  background-image: url('../images/css/movies-background.jpg');
+  position: absolute;
+  z-index: -1;
+  background-size: 100%;
+}
+#articleBackground{
+  position:relative;
+}
+
+#articleBackground::after{
+  content:"";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.25;
+  background-image: url('../images/css/article-background.jpg');
+  position: absolute;
+  z-index: -1;
+  background-size: 100%;
+}

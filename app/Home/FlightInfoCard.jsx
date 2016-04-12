@@ -1,11 +1,11 @@
 import React from 'react'
-import {Card, CardTitle, CardActions, CardText} from 'react-mdl'
+import {Card, CardTitle, CardActions, CardText, Button} from 'react-mdl'
 
 export default class FlightInfoCard extends React.Component{
   render(){
     return(
-      <Card shadow={2} style={{width: '100%', margin: 'auto'}}>
-        <CardTitle style={{background: 'url(../images/css/background-home.jpg))'}}>
+      <Card id="flightInfo" shadow={2} style={{width: '100%', margin: 'auto'}}>
+        <CardTitle >
           Flight#: {this.props.info.flightNumber}
         </CardTitle>
         <CardText>
@@ -13,7 +13,9 @@ export default class FlightInfoCard extends React.Component{
           <h3>Arrival City: {this.props.info.arrivalCity} <strong>{this.props.info.arrivalAirport}</strong></h3>
         </CardText>
         <CardActions border>
-          More Information
+          <Button colored>
+            More Info
+          </Button>
         </CardActions>
       </Card>
     )
