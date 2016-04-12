@@ -6,14 +6,14 @@ export default class Signup extends React.Component{
     if(this.props.isLoggedIn){
       return(
         <div>
-          <NavLink to='/food'>Food</NavLink>
-          <NavLink to='/help'>Help</NavLink>
-          <NavLink to="/logout">Log Out</NavLink>
+          <NavLink className="mdl-navigation__link" to='/food'>Food</NavLink>
+          <NavLink className="mdl-navigation__link" to='/help'>Help</NavLink>
+          <NavLink className="mdl-navigation__link" to="/logout">Log Out</NavLink>
         </div>
       )
     }else{
       return (
-        <NavLink to="/login">Log In</NavLink>
+        <NavLink className="mdl-navigation__link" to="/login">Log In</NavLink>
       )
     }
   }

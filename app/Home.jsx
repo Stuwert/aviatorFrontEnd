@@ -4,6 +4,12 @@ import {Link} from 'react-router'
 import Login from './login/Login.jsx'
 import $ from 'jquery'
 
+//import cards
+import ArticleCard from './Home/ArticleCard'
+import GameCard from './Home/GameCard'
+import MovieCard from './Home/MovieCard'
+import FlightInfoCard from './Home/FlightInfoCard'
+
 export default class Home extends React.Component{
   constructor(){
     super();
@@ -31,49 +37,14 @@ export default class Home extends React.Component{
   render(){
     return(
       <div>
-        <h1>{this.state.aircraftType}</h1>
-        <ul>
-          <li>{this.state.flightNumber}</li>
-          <li>{this.state.milesFlown}</li>
-        </ul>
-        <table>
-          <thead>
-            <tr>
-              <th>Departure City</th>
-              <th>Departure Airport</th>
-              <th>Departure Time</th>
-              <th>Arrival City</th>
-              <th>Arrival Airport</th>
-              <th>ArrivalTime</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{this.state.departureCity}</td>
-              <td>{this.state.departureAirport}</td>
-              <td>{this.state.departureTime}</td>
-              <td>{this.state.arrivalCity}</td>
-              <td>{this.state.arrivalAirport}</td>
-              <td>{this.state.estimatedArrivalTime}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div>
-          <Link to="/game">
-            <div>
-              Games
-            </div>
-          </Link>
-          <Link to="/articles">
-            <div>
-              Articles
-            </div>
-          </Link>
-          <Link to="/movies">
-            <div>
-              Movies
-            </div>
-          </Link>
+        <div className="mdl-grid">
+          <div className="mdl-cell mdl-cell--6-col"></div>
+          <FlightInfoCard info={this.state} />
+        </div>
+        <div className="mdl-grid">
+          <GameCard />
+          <MovieCard />
+          <ArticleCard />
         </div>
       </div>
     )

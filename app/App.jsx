@@ -30,16 +30,43 @@ export default class App extends React.Component{
   }
   render(){
     return (
-      <div>
-        <ul role="nav" className="navbar">
-          <li><NavLink to="/">Home</NavLink></li>
-          <li><NavLink to="/game">Games</NavLink></li>
-          <li><NavLink to="/movies">Movies</NavLink></li>
-          <li><NavLink to="/articles">Articles</NavLink></li>
-          <li><NavLink to="/safety">Safety Information</NavLink></li>
-          <li><UserInfo isLoggedIn={this.state.isLoggedIn}  /></li>
-        </ul>
-        {this.props.children}
+      <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header className="mdl-layout__header">
+          <div className="mdl-layout__header-row">
+
+            <span className="mdl-layout-title">Aviator</span>
+
+            <div className="mdl-layout-spacer"></div>
+
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+              <NavLink className="mdl-navigation__link" to="/">Home</NavLink>
+              <NavLink className="mdl-navigation__link" to="/game">Games</NavLink>
+              <NavLink className="mdl-navigation__link" to="/movies">Movies</NavLink>
+              <NavLink className="mdl-navigation__link" to="/articles">Articles</NavLink>
+              <NavLink className="mdl-navigation__link" to="/safety">Safety Information</NavLink>
+              <UserInfo isLoggedIn={this.state.isLoggedIn}  />
+            </nav>
+          </div>
+        </header>
+        <div className="mdl-layout__drawer">
+          <span className="mdl-layout-title">Aviator</span>
+
+          <nav class="mdl-navigation">
+            <NavLink className="mdl-navigation__link" to="/">Home</NavLink>
+            <NavLink className="mdl-navigation__link" to="/game">Games</NavLink>
+            <NavLink className="mdl-navigation__link" to="/movies">Movies</NavLink>
+            <NavLink className="mdl-navigation__link" to="/articles">Articles</NavLink>
+            <NavLink className="mdl-navigation__link" to="/safety">Safety Information</NavLink>
+            <UserInfo isLoggedIn={this.state.isLoggedIn}  />
+          </nav>
+        </div>
+
+        <main className="mdl-layout__content">
+          <div className="page-content">
+            {this.props.children}
+          </div>
+        </main>
+
       </div>
     )
   }

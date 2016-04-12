@@ -1,3 +1,5 @@
+require('./material.min.js')
+
 //Require
 import React from 'react';
 import ReactDOM from 'react-dom';
