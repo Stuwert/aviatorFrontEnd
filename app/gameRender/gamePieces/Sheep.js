@@ -1,9 +1,9 @@
 export default class Sheep{
   constructor(sheep){
-    this.width = 10;
+    this.width = 40;
     this.sheepArray = [];
     this.image = new Image();
-    this.image.src = require('../../images/game/sheep.png')
+    this.image.src = require('../../images/game/sheep_45.png')
   }
 }
 

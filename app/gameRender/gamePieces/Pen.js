@@ -2,7 +2,7 @@ export default class Pen{
   constructor(){
     this.x = 0;
     this.y = 0;
-    this.width = 50;
+    this.width = 80;
     this.image = new Image();
     this.image.src = require('../../images/game/pen.png')
   }

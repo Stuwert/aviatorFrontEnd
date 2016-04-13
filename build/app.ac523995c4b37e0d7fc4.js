@@ -9478,6 +9478,7 @@ webpackJsonp([0,3],[
 	};
 
 	Game.prototype.renderGame = function () {
+	  console.log(this.dogs.myDog.image);
 	  var that = this;
 	  this.ctx.fillStyle = 'rgb(67,247,51)';
 	  this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
