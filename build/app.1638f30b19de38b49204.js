@@ -8619,34 +8619,38 @@ webpackJsonp([0,3],[
 	          _reactMdl.Cell,
 	          { align: 'middle', col: 6 },
 	          _react2.default.createElement(
-	            _reactMdl.Card,
-	            { shadow: 0, id: 'login' },
+	            _reactMdl.Tooltip,
+	            { label: 'For Admin login use admin/admin, for User login use user/user', position: 'right' },
 	            _react2.default.createElement(
-	              _reactMdl.CardTitle,
-	              { className: 'mdl-color__primary' },
-	              'Login '
-	            ),
-	            _react2.default.createElement(
-	              _reactMdl.CardText,
-	              null,
+	              _reactMdl.Card,
+	              { shadow: 0, id: 'login' },
 	              _react2.default.createElement(
-	                'form',
-	                { onSubmit: this.handleSubmit.bind(this) },
-	                _react2.default.createElement(_reactMdl.Textfield, {
-	                  onChange: this.updateUserName.bind(this),
-	                  label: 'Username',
-	                  floatingLabel: true
-	                }),
-	                _react2.default.createElement(_reactMdl.Textfield, {
-	                  onChange: this.updatePassword.bind(this),
-	                  label: 'password',
-	                  floatingLabel: true,
-	                  inputClassName: 'password'
-	                }),
+	                _reactMdl.CardTitle,
+	                { className: 'mdl-color__primary' },
+	                'Login '
+	              ),
+	              _react2.default.createElement(
+	                _reactMdl.CardText,
+	                null,
 	                _react2.default.createElement(
-	                  _reactMdl.Button,
-	                  { raised: true, ripple: true },
-	                  'Log In'
+	                  'form',
+	                  { onSubmit: this.handleSubmit.bind(this) },
+	                  _react2.default.createElement(_reactMdl.Textfield, {
+	                    onChange: this.updateUserName.bind(this),
+	                    label: 'Username',
+	                    floatingLabel: true
+	                  }),
+	                  _react2.default.createElement(_reactMdl.Textfield, {
+	                    onChange: this.updatePassword.bind(this),
+	                    label: 'password',
+	                    floatingLabel: true,
+	                    inputClassName: 'password'
+	                  }),
+	                  _react2.default.createElement(
+	                    _reactMdl.Button,
+	                    { raised: true, ripple: true },
+	                    'Log In'
+	                  )
 	                )
 	              )
 	            )
@@ -8958,9 +8962,13 @@ webpackJsonp([0,3],[
 	          _reactMdl.CardActions,
 	          { border: true },
 	          _react2.default.createElement(
-	            _reactMdl.Button,
-	            { colored: true },
-	            'More Info'
+	            _reactMdl.Tooltip,
+	            { label: 'Demo! Link won\'t work', position: 'top' },
+	            _react2.default.createElement(
+	              _reactMdl.Button,
+	              { colored: true },
+	              'More Info'
+	            )
 	          )
 	        )
 	      );
@@ -9812,9 +9820,13 @@ webpackJsonp([0,3],[
 	                  _reactMdl.CardActions,
 	                  { border: true },
 	                  _react2.default.createElement(
-	                    _reactMdl.Button,
-	                    { onClick: this.handleClick, accent: true, ripple: true, raised: true },
-	                    'I\'m Ready!'
+	                    _reactMdl.Tooltip,
+	                    { label: 'Requires two players!', large: true, position: 'top' },
+	                    _react2.default.createElement(
+	                      _reactMdl.Button,
+	                      { onClick: this.handleClick, accent: true, ripple: true, raised: true },
+	                      'I\'m Ready!'
+	                    )
 	                  )
 	                )
 	              )
@@ -9915,9 +9927,13 @@ webpackJsonp([0,3],[
 	              _reactMdl.CardActions,
 	              { border: true },
 	              _react2.default.createElement(
-	                _reactMdl.Button,
-	                { onClick: this.handleClick, accent: true, ripple: true, raised: true },
-	                'Play!'
+	                _reactMdl.Tooltip,
+	                { label: 'Demo! Link won\'t work', position: 'top' },
+	                _react2.default.createElement(
+	                  _reactMdl.Button,
+	                  { onClick: this.handleClick, accent: true, ripple: true, raised: true },
+	                  'Play!'
+	                )
 	              )
 	            )
 	          )
@@ -10009,12 +10025,16 @@ webpackJsonp([0,3],[
 	            ),
 	            _react2.default.createElement('img', { src: __webpack_require__(358), width: '150' }),
 	            _react2.default.createElement(
-	              _reactMdl.CardActions,
-	              { border: true },
+	              _reactMdl.Tooltip,
+	              { label: 'Demo! Link won\'t work', position: 'top' },
 	              _react2.default.createElement(
-	                _reactMdl.Button,
-	                { onClick: this.handleClick, accent: true, ripple: true, raised: true },
-	                'Bing Bong!'
+	                _reactMdl.CardActions,
+	                { border: true },
+	                _react2.default.createElement(
+	                  _reactMdl.Button,
+	                  { onClick: this.handleClick, accent: true, ripple: true, raised: true },
+	                  'Bing Bong!'
+	                )
 	              )
 	            )
 	          )
