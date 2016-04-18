@@ -4,7 +4,7 @@
 import React from 'react'
 import {socket} from '../../configinfo'
 import gameStore from '../stores/gameStore'
-import {Grid, Cell, Button, Card, CardTitle, CardText, CardActions} from 'react-mdl'
+import {Grid, Cell, Button, Card, CardTitle, CardText, CardActions, Tooltip} from 'react-mdl'
 import GameExample1 from './GameExample1'
 import GameExample2 from './GameExample2'
 
@@ -34,8 +34,10 @@ export default class GameTutorial extends React.Component {
                 <p>Your arrow keys will move the dog and the sheep will move towards the pen if you are near.</p>
                 <img src={require('../../images/css/DogGame.gif')}  height='200' width='350' />
                 <CardActions border>
-                  <Button onClick={this.handleClick} accent ripple raised>I'm Ready!</Button>
-                </CardActions>
+                  <Tooltip label="Requires two players!" large={true} position="top">
+                    <Button onClick={this.handleClick} accent ripple raised>I'm Ready!</Button>
+                  </Tooltip>
+                  </CardActions>
               </CardText>
             </Card>
           </Cell>

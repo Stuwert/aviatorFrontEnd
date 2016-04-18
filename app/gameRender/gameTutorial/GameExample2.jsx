@@ -1,7 +1,7 @@
 import React from 'react'
 import {socket} from '../../configinfo'
 import gameStore from '../stores/gameStore'
-import {Grid, Cell, Button, Card, CardTitle, CardText, CardActions} from 'react-mdl'
+import {Grid, Cell, Button, Card, CardTitle, CardText, CardActions, Tooltip} from 'react-mdl'
 
 export default class GameExample2 extends React.Component {
   handleClick(){
@@ -18,9 +18,11 @@ export default class GameExample2 extends React.Component {
           <CardText>
             <p>It's Tic Tac Toe!.</p>
             <img src={require('../../images/css/tic-tac-toe.png')}  width='150'  />
-            <CardActions border>
-              <Button onClick={this.handleClick} accent ripple raised>Bing Bong!</Button>
-            </CardActions>
+            <Tooltip label="Demo! Link won't work" position="top">
+              <CardActions border>
+                <Button onClick={this.handleClick} accent ripple raised>Bing Bong!</Button>
+              </CardActions>
+            </Tooltip>
           </CardText>
         </Card>
       </div>

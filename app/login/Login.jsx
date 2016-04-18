@@ -4,7 +4,7 @@ import $ from 'jquery'
 import userActions from '../flux/actions/userActions'
 import UserStore from '../flux/stores/userStore'
 import {browserHistory} from 'react-router'
-import {Button, Card, CardTitle, CardText, Textfield, Grid, Cell} from 'react-mdl'
+import {Button, Card, CardTitle, CardText, Textfield, Grid, Cell, Tooltip} from 'react-mdl'
 
 class Login extends React.Component{
   constructor(props){
@@ -55,6 +55,7 @@ class Login extends React.Component{
     return(
       <Grid>
         <Cell align={'middle'} col={6}>
+          <Tooltip label="For Admin login use admin/admin, for User login use user/user" position="right">
           <Card shadow={0} id="login">
             <CardTitle className="mdl-color__primary">Login </CardTitle>
             <CardText>
@@ -74,6 +75,7 @@ class Login extends React.Component{
               </form>
             </CardText>
           </Card>
+          </Tooltip>
         </Cell>
       </Grid>
     )
